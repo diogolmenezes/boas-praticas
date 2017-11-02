@@ -1,0 +1,674 @@
+# Boas Práticas de programação - Oi Digital
+
+Nesse guia falaremos sobre algumas boas práticas de programação e padrões que devem ser utilizados pelas equipes de desenvolvimento de software da Oi.
+
+Usaremos como base a linguagem Javascript, mas tenha em mente que a maioria dos conceitos encontrados aqui podem ser aplicados em qualquer linguagem.
+
+## Índice
+
+- [Introdução](#introdução)
+- [Codigo Limpo](#codigo-limpo)
+    - [Variáveis](#variaveis)
+    - [Classes métodos e funções](#classes-métodos-e-funções)
+    - [Codigo Morto](#código-morto)
+    - [Definiçao de classes e ES6](#definição-de-classes-e-es6)
+- [Testes](#testes)
+- [Log](#log)
+- [Consumo de serviços](#servicos)
+- [Docker](#docker)
+- [Leituras](#leituras)
+
+## Introdução
+
+Esse guia não é apenas um style guide, falaremos sobre boas práticas de programação e padrões de projeto e código que devem ser utilizados pelas equipes de desenvolvimento de software da Oi, afim de garantirmos excelência.
+
+As recomendações desse guia, são testadas e largamente utilizadas pela comunidade de desenvolvimento de software. Usaremos como base a linguagem Javascript, mas tenha em mente que a maioria dos conceitos encontrados aqui podem ser aplicados em qualquer linguagem.
+
+A aplicação dessas práticas irá melhorar a qualidade do código criado pelo digital e garantirá que tenhamos um padrão de desenvolvimento que facilitará o intercâmbio de conhecimento entre os times.
+
+## Codigo Limpo
+
+Nessa sessão daremos algumas recomendações de escrita de código que facilitarão o entendimento do código.
+
+## Variaveis
+
+### Prefira nomes completos, pronunciáveis e representativos
+
+Escolha bons nomes e não tenha medo de escrever um nome longo. Os nomes devem ser produnciáveis e representar bem o valor que estão recebendo.
+
+Ruim:
+
+```javascript
+    let n = 'Diogo Menezes';
+    let term = '2199999999';
+    let ultimaFat  = '09890809898908';
+    let datAtualiz = new Date();
+    let req;
+    let res;
+```
+
+```javascript
+    produtos.map(p => {
+        fazIsso(p);
+        fazAquilo(p);
+    });
+```
+
+Bom:
+
+```javascript
+    let nome = 'Diogo Menezes';
+    let terminal = '2199999999';
+    let ultimaFatura  = '09890809898908';
+    let dataDeAtualizacao = new Date();
+    let request;
+    let response;
+```
+
+```javascript
+    produtos.map(produto => {
+        fazIsso(produto);
+        fazAquilo(produto);
+    });
+```
+
+### Crie apelidos
+
+Sempre que possível atribua valores a variáveis bem nomeadas. Isso facilita a legibilidade do código.
+
+Ruim:
+
+```javascript
+    setTimeout(faca_qualquer_coisa, 600000);
+```
+
+```javascript
+    if(cliente.tipoPlano = 'PRE' && cliente.produtos.length > 0)
+        migrar();
+```
+
+Bom:
+
+```javascript
+    const DEZ_MINUTOS_EM_MILISEGUNDOS = 600000;
+    setTimeout(faca_qualquer_coisa, DEZ_MINUTOS_EM_MILISEGUNDOS);
+```
+
+```javascript
+    let jaPodeMigrar = cliente.tipoPlano = 'PRE' && cliente.produtos.length > 0;
+
+    if(jaPodeMigrar)
+        migrar();
+
+    // ou você pode abstrair ainda mais...
+
+    let clientePrepago = cliente.tipoPlano = 'PRE';
+    let possuiProdutos = cliente.produtos.length > 0;
+    let jaPodeMigrar = clientePrepago && possuiProdutos;
+
+    if(jaPodeMigrar)
+        migrar();
+```
+
+### Nunca coloque contextos desnecessários
+
+Escreva os objetos de forma clara, sem incluir contextos desnecessários para o entendimento.
+
+Ruim:
+
+```javascript
+    let cliente = {
+        clienteNome: 'Diogo',
+        clienteTerminal: '21999999999',
+        clienteAtivo: false
+    };
+
+    function ativarCliente(cliente) {
+        cliente.clienteAtivo = true;
+    };
+```
+
+```javascript
+    let cliente = {
+        nome: 'Diogo',
+        terminal: '21999999999',
+        ativo: false
+    };
+
+    function ativarCliente(cliente) {
+        cliente.ativo = true;
+    };
+```
+
+Bom:
+
+```javascript
+    const DEZ_MINUTOS_EM_MILISEGUNDOS = 600000;
+    setTimeout(faca_qualquer_coisa, DEZ_MINUTOS_EM_MILISEGUNDOS);
+```
+
+## Classes métodos e funções
+
+### Classes, metodos e funcões devem fazer apenas uma coisa (Single Responsability Principle)
+
+O [princípio da responsabilidade única ou SRP](https://drive.google.com/file/d/0ByOwmqah_nuGNHEtcU5OekdDMkk/view) é a regra mais importante desse guia, se você fosse escolher apenas uma regra para aplicar, essa seria ela. Não é a toa que é o primeiro dos [principles os odd]((http://butunclebob.com/ArticleS.UncleBob.PrinciplesOfOod)).
+
+Esse é um conceito primordial da engenharia de software, quando funções fazem muitas coisas é mais muito difícil, entender, refatorar e testar, por isso manter os métodos enxutos e com apenas um propósito tem que ser o seu maior objetivo.
+
+Uma função pode chamar outras funções mas essa só pode ter uma responsabilidade e um motivo para mudar.
+
+[The Principles of OOD](http://butunclebob.com/ArticleS.UncleBob.PrinciplesOfOod)
+
+Ruim:
+
+O método enviar conta está enviando a conta e marcando ela como enviada.
+
+```javascript
+function enviarConta(cliente, contas) {
+    contas.forEach(conta => {
+
+        emailSender('sistema@email', cliente.email, 'Nova Conta', `Valor ${conta.valor}`).then(() => {
+            conta.enviada = true;
+            conta.dataDoEnvio = new Date();
+            atualizarConta(conta);
+        });
+    });
+};
+```
+
+Bom:
+
+Agora a funcionalidade continua igual mas o método de envio de conta não tem mais a responsabilidade de saber como a data de envio de conta tem que ser atualizada.
+
+Repare que cada método tem a sua responsabilidade e pode ser refatorado e testado individualmente.
+
+Caso a forma com que a data do envio é definida mude, não teremos mais que alterar o método de envio de conta. A alteração ocorrerá apenas no método de definição de data de envio.
+
+```javascript
+function enviarConta(cliente, contas) {
+    contas.forEach(conta => {
+        enviarEmailDeConta(cliente.email, conta.valor).then(definirDataDeEnvio);
+    });
+};
+
+function enviarEmailDeConta(email, valor) {
+    return  emailSender('sistema@email', email, 'Nova Conta', `Valor ${valor}`);
+};
+
+function definirDataDeEnvio(conta) {
+    conta.enviada = true;
+    conta.dataDoEnvio = new Date();
+    atualizarConta(conta);
+};
+
+```
+
+
+### Evite condicionais
+
+De acordo com o principio da responsabilidade unica, sempre que necessario devemos seprar as coisas para que casa classe, método ou função tenha apenas uma responsabilidade.
+
+Ruim:
+
+```javascript
+class Fatura {
+    // Fatura do prepago, do pospago, e do cliente misto.
+    gerar(cliente) {
+        switch(cliente.tipo) {
+            case 'pre':
+                return this.valor + this.taxa;
+            case 'pos':
+                return this.valor - this.desconto;
+            default:
+                return this.valor;
+        }
+    };
+};
+```
+
+Bom:
+
+```javascript
+// Fatura do cliente misto.
+class Fatura {
+    gerar(cliente) {
+        return this.valor;
+    };
+};
+
+// Fatura do cliente prepago.
+class FaturaPre {
+    gerar(cliente) {
+        return this.valor + this.taxa;
+    };
+};
+
+// Fatura do cliente pospago.
+class FaturaPos {
+    gerar(cliente) {
+        return this.valor - this.desconto;
+    };
+};
+```
+
+### Prefira nomes completos, pronunciáveis e representativos
+
+Ruim:
+
+```javascript
+function adiar(numero) {
+    pagamento.vencimento.add(numero, 'week');
+};
+```
+
+Bom:
+
+```javascript
+function adiarPagamento(numeroDeSemanas) {
+    pagamento.vencimento.add(numeroDeSemanas, 'week');
+};
+```
+
+Ruim:
+
+```javascript
+function adiar() {
+    pagamento.vencimento.add(1, 'week');
+};
+```
+
+Bom:
+
+```javascript
+function adiarPagamentoEmUmaSemana() {
+    pagamento.vencimento.add(1, 'week');
+};
+```
+
+### Poucos argumentos
+
+É uma boa prática limitar o número de argumentos de uma função. O ideal é que ela tenha apenas 2 ou menos argumentos.
+
+Isso é importante pois torna os testes e a legibilidade mais fáceis. Muitas vezes funções com muitos argumentos estão fazendo mais do que deveriam fazer e quando não estão, usar um objeto como argumento simplifica as coisas.
+
+As versões modernas do Javascript já suportam [*destructuring*](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Operators/Atribuicao_via_desestruturacao) e essa sintaxe pode nos ajudar na definição dos argumento de uma função.
+
+Ruim:
+
+```javascript
+function enviarEmail(de, para, copia, assunto, texto) {
+    // envia o e-mail
+};
+
+enviarEmail('diogo@email', 'fulano@email', null, 'Boas praticas', 'um texto');
+```
+
+Ruim:
+
+```javascript
+function enviarEmail(email) {
+    // envia o e-mail
+};
+
+let email = {
+    de: 'diogo@email',
+    para: 'fulano@email',
+    assunto: 'Boas praticas',
+    texto: 'um texto'
+};
+
+
+enviarEmail(email);
+```
+
+Bom:
+
+Repare que os argumentos ficam explicitos mas não é necessário definir nem "de" nem "copia".
+
+```javascript
+function enviarEmail({ de = 'padrao@email.com', para, copia, assunto, texto }) {
+    // envia o e-mail
+};
+
+let email = {
+    para: 'fulano@email',
+    assunto: 'Boas praticas',
+    texto: 'um texto'
+};
+
+enviarEmail(email);
+```
+
+### Caso necessário, utilize valores padrão para os argumentos
+
+Péssimo:
+
+```javascript
+function boasVindas(nome) {
+    if(!nome)
+        nome = 'Visitante';
+
+    console.log(`Olá ${nome}`);
+};
+
+boasVindas(); // Olá Visitante
+boasVindas('Diogo'); // Olá Diogo
+```
+
+Ruim:
+
+```javascript
+function boasVindas(nome) {
+    nome = nome || 'Visitante';
+    console.log(`Olá ${nome}`);
+};
+
+boasVindas(); // Olá Visitante
+boasVindas('Diogo'); // Olá Diogo
+```
+
+Bom:
+
+Só tenha cuidado pois os valores padrão só são definidos para argumentos que receberem *undefined*. Caso você chame *boasVindas(null)* por exemplo, o valor padrão não será aplicado para nome.
+
+```javascript
+function boasVindas(nome = 'Visitante') {
+    console.log(`Olá ${nome}`);
+};
+
+boasVindas(); // Olá Visitante
+boasVindas('Diogo'); // Olá Diogo
+```
+
+Bom:
+
+Quando o argumento for um objeto, utilize [Object.assign](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) na definição dos atributos padrão.
+
+```javascript
+function enviarEmail(opcoes) {
+    opcoes = Object.assign({}, {
+        de: 'padrao@email.com',
+        assunto: 'Assunto padrao'
+    }, opcoes);
+    console.log(opcoes);
+};
+
+enviarEmail({ assunto:'Novo assunto', texto: 'Novo texto' });
+```
+
+Melhor:
+
+Ou ainda, utilize o padrão destructuring
+
+```javascript
+function enviarEmail({ de = 'padrao@email.com', assunto = 'Assunto Padrao', texto, para }) {
+    console.log(de, assunto, texto, para);
+};
+
+enviarEmail({ assunto:'Novo assunto', texto: 'Novo texto' });
+```
+
+
+
+## Remova codigos duplicados
+
+Sempre remova duplicidades desnecessárias.
+
+Ruim:
+
+```javascript
+function mascararTerminalMovel(terminal) {
+    terminal = String(terminal);
+    terminal = terminal.replace('-', '');
+    return terminal.replace(terminal.substring(2, 7), '*****');
+};
+
+function mascararTerminalFixo(terminal) {
+    terminal = String(terminal);
+    terminal = terminal.replace('-', '');
+    return terminal.replace(terminal.substring(2, 6), '*****');
+};
+```
+
+Bom:
+
+```javascript
+function mascararTerminal(terminal) {
+    terminal = String(terminal);
+    terminal = terminal.replace('-', '');
+    
+    numerosVisiveisNoFinal = 4;
+    numerosEscondidos = terminal.length - numerosVisiveisNoFinal - 2;
+    posicao  = terminal.length - numerosVisiveisNoFinal;
+    valorSubstituido = terminal.substring(2, posicao);
+    
+    return terminal.replace(valorSubstituido , '*'.repeat(numerosEscondidos));
+};
+```
+
+### Evite negar condiçoes
+
+Condições negadas podem passar despercebinas na hora da leitura do código. Sempre que possível organize o código de outra forma.
+
+Ruim
+
+```javascript
+if(!temEmail)
+    mandarSms();
+else
+    mandarEmail();
+```
+
+Bom:
+
+```javascript
+if(temEmail)
+    mandarEmail();
+else
+    mandarSms();
+```
+
+### Efeitos Colaterais - Evite alterar variáveis de fora do escopo
+
+Evite que uma função altere um valor global, isso pode quebrar seu código.
+
+Ruim:
+
+```javascript
+let terminal = '21999999999';
+
+function mascararTerminal() {
+    terminal = terminal.replace(terminal.substring(2, 7), '*****');
+};
+
+mascararTerminal();
+
+console.log(terminal); // 21*****9999
+```
+
+Bom:
+
+```javascript
+function mascararTerminal(terminal) {
+    return terminal.replace(terminal.substring(2, 7), '*****');
+};
+
+const terminal = '21999999999';
+const terminalMascarado = mascararTerminal(terminal);
+
+console.log(terminal); // 21999999999
+console.log(terminalMascarado); // 21*****9999
+```
+
+### Efeitos Colaterais - Clone objetos como argumentos
+
+No Javascript tipos primitivos são passados como valor e objetos/arrays são passados como referência. Isso pode causar efeitos colateráis indesejados caso não se tome cuidado.
+
+No caso de objetos ou arrays, caso a função que os receba, faça alterações, essas mudanças se refletirão no objeto original.
+
+Vamos supor que se passe um objeto cliente para uma função e dentro dela esse objeto seja alterado para inativo. Esse status inativo será refletido no objeto original e essa alteração não existirá apenas no contexto da função.
+
+Uma boa solução para esse cenário é SEMPRE CLONAR os objetos de entrada, assim garantimos que qualquer alteração só exista no contexto da função e não reflita no objeto original.
+
+Ruim:
+
+```javascript
+function realizarLogin(cliente) {
+    // faz algumas coisas
+    cliente.ativo = false;
+};
+
+let cliente = { nome: 'Diogo Menezes', login: 'diogo', senha: '123', ativo: true };
+
+console.log('Antes: ', cliente.ativo); // true
+
+realizarLogin(cliente);
+
+console.log('Depois: ', cliente.ativo); // false, a função altera o objeto original
+```
+
+Bom:
+
+```javascript
+function realizarLogin(cliente) {
+    // clona o objeto
+    cliente = Object.assign({}, cliente);
+
+    // faz algumas coisas
+    cliente.ativo = false;
+};
+
+let cliente = { nome: 'Diogo Menezes', login: 'diogo', senha: '123', ativo: true };
+
+console.log('Antes: ', cliente.ativo); // true
+
+realizarLogin(cliente);
+
+console.log('Depois: ', cliente.ativo); // true, a função não altera o objeto original
+```
+
+### Efeitos Colaterais - Evite alterar funções globais
+
+Alterar funções globalmente não é uma boa pratica pois a alteração que você fez reflete para outras bibliotecas que tambem usam a função e isso pode gerar confusão.
+
+Vamos supor que você queria alterar o método toString da classe string para sempre mostrar uma exclamação no final. Se você fizer isso no prototype essa alteração irá refletir para todas as bibliotecas que usem o método toString e essa provavelmente não é a sua intenção.
+
+A forma correta criar uma nova classe extendendo a classe original para só depois alterar seu comportamento.
+
+Ruim
+
+```javascript
+String.prototype.toString = function() {
+    return this + "!!!"
+};
+
+"Ola".toString();
+```
+
+Bom:
+
+```javascript
+class StringQueGrita extends String {
+    toString() {
+        return this + "!!!"
+    };
+};
+
+new StringQueGrita("Ola").toString();
+```
+
+## Código Morto
+
+Uma coisa muito importante que temos que ter em mente é que nosso código é vivo. Estamos em um ambiente onde perseguimos a melhora contínua e onde mudanças são bem vindas, logo, temos que nos preocupar diáriamente com a saúde do nosso projeto e não tem nada mais "morto" que um código antigo comentado, não é mesmo?
+
+Por isso **prefira apagar códigos do que comentar**, lembre que utilizamos ferramentas de controle de versão que estão ai para nos ajudar caso seja necessário dar uma olhada em uma versão anterior do arquivo.
+
+Sempre que perceber que um método, classe, arquivo etc. não está mais sendo utilizado pelo sistema, sinta-se a vontade para apaga-lo! Dessa forma garantimos que o projeto está sempre em sua versão mais enxuta e evitamos que tempo seja perdido analisando coisas que não usamos mais.
+
+Ruim:
+
+```javascript
+function exibirAlerta(texto) {
+    // mudamos a biblioteca de notificacao
+    // jupter.show({
+    //     size: 3000,
+    //     overflow: 'hidden',
+    //     color: 'red',
+    //     title: 'Cuidado';
+    // }, texto);
+
+    novaClasseDeNotificacao.exibir(texto);
+};
+
+// function esconderAlertas() {
+//     // escondendo os alertas da jupter
+// }
+```
+
+Bom:
+
+```javascript
+function exibirAlerta(texto) {
+    novaClasseDeNotificacao.exibir(texto);
+};
+```
+
+## Definição de classes e ES6
+
+Dê preferência ao modelo ES6.
+
+- [Medium guia ES6](https://medium.com/@matheusml/o-guia-do-es6-tudo-que-voc%C3%AA-precisa-saber-8c287876325f)
+- [https://github.com/lukehoban/es6features](https://github.com/lukehoban/es6features)
+
+Ruim:
+
+```javascript
+Fatura = function() {
+    this.logger = require('logger');
+};
+
+Fatura.prototype.gerar = function(cliente) {
+        // ...
+};
+
+Fatura.prototype.arquivar = function(fatura) {
+        // ...
+};
+```
+
+Bom:
+
+```javascript
+class Fatura {
+    constructor() {
+        this.logger = require('logger');
+    };
+
+    gerar(cliente) {
+        // ...
+    };
+
+    arquivar(fatura) {
+        // ...
+    };
+};
+```
+
+## Testes
+
+Testes são tão ou mais importantes que a própria entrega. Pode parecer polêmico mas se seus casos de teste não existem ou são ruins ninguém pode garantir a qualidade da sua entrega.
+
+Se sua suite de testes é falha ou não existe, toda vez que mexer no código você não terá certeza de que não quebrou nada.
+
+Os testes são os melhores amigos do desenvolvedor, eles blidam você, seu time, seu projeto e a sua empresa de entregarem algo com problema. Quanto mais completa e confiavel for sua suite de testes, maior é a sua capacidade de entrega e a sua tranquilidade de que tudo vai sair conforme o esperado.
+
+Aqui na Oi, já temos implementado o Sonar que ajudará você a perceber falhas na na cobertura do seu projeto.
+
+A metodologia TDD é encorajada por aqui já que além de criar o caso de teste você desenvolve orientado ao negócio criando APIs muito mais bonitas e fáceis de usar e de testar.
+
+Recomendamos fortemente que utilize TDD, mas se isso for complicado no momento, faça os testes depois do código mas FAÇA! Não podemos ter entregas sem teste, essa é uma premissa basica.
+
+## Leituras
+
+- [Codigo Limpo - Robert Cecil Martin](https://www.amazon.com.br/C%C3%B3digo-Limpo-Habilidades-Pr%C3%A1ticas-Software/dp/8576082675)
+- [Clean Code Javascript](https://github.com/ryanmcdermott/clean-code-javascript/blob/master/README.md#introduction)

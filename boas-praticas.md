@@ -1697,11 +1697,18 @@ Nesse módulo falaremos sobre algumas boas praticas para tornar essa tarefa mais
 
 ## Consumo de serviços
 
-Pendente...
+A grande maioria dos projetos tem tipo de integração com serviços externos. A ideia aqui é detalhar algumas boas praticas que devemos ter em mente no momento de consumir um serviço.
 
 ## Docker
 
-Pendente...
+O Docker sem dúvida revolucionou o nosso mercado. Reunimos aqui alguns que podem ajudar.
+
+- [Receitas Docker](https://github.com/diogolmenezes/recipes/blob/master/docker.md) mantenho em meu github pessoal alguns arquivos que chamo de receitas. Nesses arquivos coloco alguns comandos que aprendo no dia a dia e que podem servir de guia rápido.
+
+- [NodeJs no docker](https://nodejs.org/en/docs/guides/nodejs-docker-webapp/) que tal colocar seu ambiente de desenvolvimento dentro de um container? Ou entender melhor como empacotar sua aplicação em container para distribuir para produção? Esse artigo do nodeJs.org é bem legal.
+
+- [Elastic em container](https://github.com/diogolmenezes/estudos-elk) alguns exemplos de criação de container de elastic search. Você ver algusn exemplos do docker-compose por aqui.
+
 
 ## Leituras
 

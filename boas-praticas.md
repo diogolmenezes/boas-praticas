@@ -10,6 +10,8 @@ Usaremos como base a linguagem Javascript, mas tenha em mente que a maioria dos 
 - [Codigo Limpo](#codigo-limpo)
   - [Variáveis](#variaveis)
   - [Classes métodos e funções](#classes-métodos-e-funções)
+  - [Arrays](#arrays)
+  - [Promises e callbacks](#promises-e-callbacks)
   - [Codigo Morto](#código-morto)
   - [Definiçao de classes e ES6](#definição-de-classes-e-es6)
   - [Closures](#closures)
@@ -581,6 +583,144 @@ class StringQueGrita extends String {
 new StringQueGrita("Ola").toString();
 ```
 
+## Arrays
+
+TODO: escrever sobre arrays
+
+## Promises e callbacks
+
+Callbacks não são tão claros de ler, por isso, prefira usar promises sempre.
+
+Você pode criar seu método retornando uma promise:
+
+```javascript
+boasVindas(nome) {
+    return new Promise((resolve, reject) => {
+        resove(`Olá ${nome}`);
+    });
+};
+
+boasVindas().
+    then(console.log);
+```
+
+Ou usar o [promisifyAll](http://bluebirdjs.com/docs/api/promise.promisify.html) do [bluebird](http://bluebirdjs.com).
+
+O importante é que você SEMPRE prefira usar promises.
+
+Ruim:
+
+```javascript
+import { get } from 'request';
+import { writeFile } from 'fs';
+
+get('http://uma_api_qualquer', (requestErr, response) => {
+  if (requestErr)
+    console.error(requestErr);
+  else {
+    writeFile('arquivo.txt', response.body, (writeErr) => {
+      if (writeErr)
+        console.error(writeErr);
+      else
+        console.log('Arquivo gravado');
+    });
+  }
+});
+```
+
+Bom:
+
+```javascript
+import { get } from 'request';
+import { writeFile } from 'fs';
+
+get('http://uma_api_qualquer')
+  .then((response) => {
+    return writeFile('arquivo.txt', response);
+  })
+  .then(() => {
+    console.log('Arquivo gravado');
+  })
+  .catch(console.error);
+```
+
+[Async e Await](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Operators/await) são ainda mais legiveis que as promises, mas não fazem parte do ES6. Caso você já use ES7 poderia escrever o exemplo acima da seguinte forma:
+
+```javascript
+import { get } from 'request';
+import { writeFile } from 'fs';
+
+async pegarArquivo()
+{
+    try {
+        const response = await get('http://uma_api_qualquer');
+        await writeFile('arquivo.txt', response);
+        console.log('Arquivo gravado');
+    } catch (error) {
+        console.log(error);
+    }
+}
+```
+
+## Erros
+
+### Não ignore os erros
+
+Não ignore os erros os impactos dessa ação podem ser enormes para o negócio.
+
+Péssimo
+
+```javascript
+try {
+    enviarSms();
+} catch(){}
+```
+
+```javascript
+enviarSms()
+    .then(() => { ... });
+```
+
+Ruim:
+
+```javascript
+try {
+    enviarSms();
+} catch(erro){
+    console.log(erro);
+}
+```
+
+```javascript
+enviarSms()
+    .then(() => { ... });
+    .catch(console.log);
+```
+
+Bom:
+
+Sempre logue os erros e se possível tome alguma ação para que esse erro seja analisado, resolvido ou contornado.
+
+```javascript
+try {
+    enviarSms();
+} catch(erro){
+    console.error(erro);
+    logger.logarErro(erro);
+    notificarAdministrador(erro);
+}
+```
+
+```javascript
+enviarSms()
+    .then(() => { ... });
+    .catch(erro => {
+        console.error(erro);
+        logger.logarErro(erro);
+        notificarAdministrador(erro);
+    });
+```
+
 ## Código Morto
 
 Uma coisa muito importante que temos que ter em mente é que nosso código é vivo. Estamos em um ambiente onde perseguimos a melhora contínua e onde mudanças são bem vindas, logo, temos que nos preocupar diáriamente com a saúde do nosso projeto e não tem nada mais "morto" que um código antigo comentado, não é mesmo?
@@ -660,7 +800,7 @@ class Fatura {
 
 ## Closures
 
-TODO: escrever o modulo de clusures
+TODO: escrever o modulo de clusures e cuidados com o this e bind
 
 ## Arquivo Readme
 
@@ -807,6 +947,8 @@ Antes de começarmos, é importante lembrar que no [Test Driven Development ou T
 1. Voltar para o passo 1 e continuar repetindo esse processo.
 
 Sabemos que nossa classe de token deve criar um novo token aleatoriamente para isso vamos criar um método de testes teste a existencia do método gerar e ver ele falhar pois como sabemos, ainda não criamos a classe Token nem o método gerar.
+
+Tente usar no maximo um assert por teste, isso facilita saber onde o teste falhou. Testes com muitos asserts dificultam a visualização do real problema, por isso sempre que possível prefira criar 2 testes do que criar um teste com 2 asserts.
 
 ```javascript
 // importanto o modulo expect do chai
@@ -1785,8 +1927,9 @@ O Docker sem dúvida revolucionou o nosso mercado. Reunimos aqui alguns que pode
 
 - [Elastic em container](https://github.com/diogolmenezes/estudos-elk) alguns exemplos de criação de container de elastic search. Você ver algusn exemplos do docker-compose por aqui.
 
-
 ## Leituras
 
 - [Codigo Limpo - Robert Cecil Martin](https://www.amazon.com.br/C%C3%B3digo-Limpo-Habilidades-Pr%C3%A1ticas-Software/dp/8576082675)
 - [Clean Code Javascript](https://github.com/ryanmcdermott/clean-code-javascript/blob/master/README.md#introduction)
+- [Boas práticas para projetos em Node.JS](http://vizir.com.br/2016/06/boas-praticas-para-projetos-em-node-js/)
+- [Arrays](https://medium.com/vizir-software-studio/no-javascript-o-array-pode-ser-seu-amigo-abe46c262147)

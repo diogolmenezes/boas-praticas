@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha ./test/unitario.js",
-    "integration": "./node_modules/mocha/bin/mocha ./test/integrado.js"
+    "integration": "./node_modules/mocha/bin/mocha ./test/integrado.js",
+    "token": "node -e 'let oiToken = require(\"./OiToken\"); oiToken.gerar().then(console.log);'"
   },
   "author": "",
   "license": "ISC",

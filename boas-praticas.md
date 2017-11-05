@@ -654,6 +654,7 @@ class Fatura {
     };
 };
 ```
+
 ## Readme
 
 Devemos dedicar tempo ao arquivo readme do projeto. Nele podemos colocar informações que ajudaram o time com tarefas relacionadas ao projeto.

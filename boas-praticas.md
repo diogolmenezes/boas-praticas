@@ -12,7 +12,7 @@ Usaremos como base a linguagem Javascript, mas tenha em mente que a maioria dos 
   - [Classes métodos e funções](#classes-métodos-e-funções)
   - [Codigo Morto](#código-morto)
   - [Definiçao de classes e ES6](#definição-de-classes-e-es6)
-  - [Readme](#readme)
+  - [Arquivo Readme](#arquivo-readme)
 - [Testes](#testes)
   - [Frameworks](#frameworks)
   - [Tipos de teste](#tipos-de-teste)
@@ -655,7 +655,7 @@ class Fatura {
 };
 ```
 
-## Readme
+## Arquivo Readme
 
 Devemos dedicar tempo ao arquivo readme do projeto. Nele podemos colocar informações que ajudaram o time com tarefas relacionadas ao projeto.
 
@@ -679,7 +679,7 @@ Equipe:
 
 Depois dessas informaçõe básicas você pode usar o Readme para ensinar a instalação e configuração do projeto, colocar informações de ambiente, exemplos de chamadas, links para documetação etc.
 
-O importante é que seu readme não seja um arquivo sem propósito. Use ele deforma a ajudar as pessoas que podem precisar do seu projeto.
+O importante é que seu readme não seja um arquivo sem propósito. Use ele para ajudar as pessoas que podem precisar do seu projeto.
 
 Esse [repositório](https://github.com/matiassingers/awesome-readme) tem alguns exemplos de arquivos de readme bem escritos.
 

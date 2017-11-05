@@ -12,6 +12,7 @@ Usaremos como base a linguagem Javascript, mas tenha em mente que a maioria dos 
   - [Classes métodos e funções](#classes-métodos-e-funções)
   - [Codigo Morto](#código-morto)
   - [Definiçao de classes e ES6](#definição-de-classes-e-es6)
+  - [Readme](#readme)
 - [Testes](#testes)
   - [Frameworks](#frameworks)
   - [Tipos de teste](#tipos-de-teste)
@@ -653,6 +654,33 @@ class Fatura {
     };
 };
 ```
+## Readme
+
+Devemos dedicar tempo ao arquivo readme do projeto. Nele podemos colocar informações que ajudaram o time com tarefas relacionadas ao projeto.
+
+Em primeiro lugar, procure sempre colocar uma descrição breve e clara dos objetivos do projeto:
+
+```bash
+Visão Geral
+
+O projeto OiToken é responsável por criar e enviar tokens por diversos canais (sms, voz, email, tv).
+```
+
+Em seguida, você pode colocar o e-mail dos responsáveil pelo projeto assim, caso alguem tenha alguma dúvida, sabera quem procurar.
+
+```bash
+Equipe:
+
+- Diogo Menezes <d@oi>
+- Joao <j@oi>
+- Maria <m.@oi>
+```
+
+Depois dessas informaçõe básicas você pode usar o Readme para ensinar a instalação e configuração do projeto, colocar informações de ambiente, exemplos de chamadas, links para documetação etc.
+
+O importante é que seu readme não seja um arquivo sem propósito. Use ele deforma a ajudar as pessoas que podem precisar do seu projeto.
+
+Esse [repositório](https://github.com/matiassingers/awesome-readme) tem alguns exemplos de arquivos de readme bem escritos.
 
 ## Testes
 

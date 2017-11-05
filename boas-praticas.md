@@ -12,6 +12,7 @@ Usaremos como base a linguagem Javascript, mas tenha em mente que a maioria dos 
   - [Classes métodos e funções](#classes-métodos-e-funções)
   - [Arrays](#arrays)
   - [Promises e callbacks](#promises-e-callbacks)
+  - [Erros](#erros)
   - [Codigo Morto](#código-morto)
   - [Definiçao de classes e ES6](#definição-de-classes-e-es6)
   - [Closures](#closures)

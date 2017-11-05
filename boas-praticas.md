@@ -698,7 +698,7 @@ O objetivo aqui é dar uma visão geral , por isso não entraremos nas especific
 
 Para exemplificar a criação dos testes unitários e integrados, criaremos utilizando TDD uma funcionalidade similar ao projeto OiToken que cria e envia um token de 6 caracteres por SMS.
 
-O projeto desse exemplo pode ser baixado [aqui]().
+O projeto desse exemplo pode ser baixado [aqui](https://github.com/diogolmenezes/boas-praticas/tree/master/token).
 
 ---
 

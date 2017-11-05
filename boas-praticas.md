@@ -673,6 +673,7 @@ Para criar os testes, nós utilizamos basicamente:
 - [Mocha](https://github.com/mochajs/mocha) como Framework de testes padrão
 - [Chai](http://chaijs.com/) como biblioteca de assert
 - [Sinon](http://sinonjs.org/) para criar stubs, mocks e spies
+- [Test Prepare](https://www.npmjs.com/package/test-prepare) biblioteca que criei para incluir e excluir cenários específicos no banco de dados antes de cada teste
 
 ### Tipos de teste
 
@@ -1680,7 +1681,19 @@ Enviar
 
 ## Log
 
-Pendente...
+Logs são extremamente importantes para o acompanhamento da saude de uma aplicação.
+
+Aqui na Oi temos agregamos todos os logs de um sistema em indices específicos do ElasticSearch. Dessa forma, podemos a qualquer momento utilizar o Kibana para fazer consultas e montar paineis de visualização.
+
+Temos também o [Butler](http://digpx02a.interno:8914/) onde podemos criar monitoramentos para sermos notificados caso um determinado padrão de log ocorra.
+
+Além disso, criamos algumas bibliotecas:
+
+- [logar requests e responses](https://www.npmjs.com/package/express-req-res-logger)
+
+Todo esse universo é bem legal mas de nada adianta se não temos logs de qualidade sendo gravados em nossos projetos.
+
+Nesse módulo falaremos sobre algumas boas praticas para tornar essa tarefa mais fácil.
 
 ## Consumo de serviços
 

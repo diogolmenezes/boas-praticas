@@ -8,16 +8,16 @@ Usaremos como base a linguagem Javascript, mas tenha em mente que a maioria dos 
 
 - [Introdução](#introdução)
 - [Codigo Limpo](#codigo-limpo)
-    - [Variáveis](#variaveis)
-    - [Classes métodos e funções](#classes-métodos-e-funções)
-    - [Codigo Morto](#código-morto)
-    - [Definiçao de classes e ES6](#definição-de-classes-e-es6)
+  - [Variáveis](#variaveis)
+  - [Classes métodos e funções](#classes-métodos-e-funções)
+  - [Codigo Morto](#código-morto)
+  - [Definiçao de classes e ES6](#definição-de-classes-e-es6)
 - [Testes](#testes)
-    - [Frameworks](#frameworks)
-    - [Tipos de teste](#tipos-de-teste)
-    - [Exemplo de teste unitário](#exemplo-de-teste-unitário)
+  - [Frameworks](#frameworks)
+  - [Tipos de teste](#tipos-de-teste)
+  - [Exemplo de teste unitário](#exemplo-de-teste-unitário)
 - [Log](#log)
-- [Consumo de serviços](#servicos)
+- [Consumo de serviços](#consumo-de-serviços)
 - [Docker](#docker)
 - [Leituras](#leituras)
 
@@ -35,7 +35,7 @@ Nessa sessão daremos algumas recomendações de escrita de código que facilita
 
 ## Variaveis
 
-### Prefira nomes completos, pronunciáveis e representativos
+### Para variáveis prefira nomes completos, pronunciáveis e representativos
 
 Escolha bons nomes e não tenha medo de escrever um nome longo. Os nomes devem ser produnciáveis e representar bem o valor que estão recebendo.
 
@@ -205,7 +205,6 @@ function definirDataDeEnvio(conta) {
 };
 
 ```
-
 
 ### Evite condicionais
 
@@ -411,8 +410,6 @@ function enviarEmail({ de = 'padrao@email.com', assunto = 'Assunto Padrao', text
 enviarEmail({ assunto:'Novo assunto', texto: 'Novo texto' });
 ```
 
-
-
 ## Remova codigos duplicados
 
 Sempre remova duplicidades desnecessárias.
@@ -439,12 +436,12 @@ Bom:
 function mascararTerminal(terminal) {
     terminal = String(terminal);
     terminal = terminal.replace('-', '');
-    
+
     numerosVisiveisNoFinal = 4;
     numerosEscondidos = terminal.length - numerosVisiveisNoFinal - 2;
     posicao  = terminal.length - numerosVisiveisNoFinal;
     valorSubstituido = terminal.substring(2, posicao);
-    
+
     return terminal.replace(valorSubstituido , '*'.repeat(numerosEscondidos));
 };
 ```
@@ -687,7 +684,6 @@ Basicamente fazemos 3 tipos de teste:
 
 - [Teste de sistema ou de aceitação](https://pt.wikipedia.org/wiki/Teste_de_sistema) são testes que garantem que seu sistema funciona como um todo. Podemos citar aqui testes que abrem o navegador navegam tela por tela replicando e aprovando ou não cenários específicos.
 
-
 **IMPORTANTE: Nos testes unitários sempre que precisar de um mock, use o Sinon. Não use o mockserver do digital pois seus testes unitários ficarão dependentes de uma plataforma externa e isso, além de mais lento pode trazer problemas inesperados.**
 
 **Use o mockserver apenas nos testes integrados e de frontend quando necessário.**
@@ -704,10 +700,10 @@ O projeto desse exemplo pode ser baixado [aqui](https://github.com/diogolmenezes
 
 O primeiro passo foi instalar as dependências, para isso basta.
 
-```
-$ npm i mocha --save-dev
-$ npm i chai --save-dev
-$ npm i sinon --save-dev
+```bash
+npm i mocha --save-dev
+npm i chai --save-dev
+npm i sinon --save-dev
 ```
 
 O segundo passo foi configurar o mocha como engine de teste do projeto no package.json
@@ -732,10 +728,10 @@ describe('OiToken', function () {
 Antes de começarmos, é importante lembrar que no [Test Driven Development ou TDD](http://tdd.caelum.com.br/) nós escrevemos os testes antes mesmo de escrever o código. O ciclo de desenvolvimento consiste em:
 
 1. Escrever um teste
-2. Rodar e ver esse teste falhar
-3. Escrever a menor alteração possível para que o teste passe (baby steps)
-4. Rodar novamente o teste e ver ele passar
-5. Voltar para o passo 1 e continuar repetindo esse processo.
+1. Rodar e ver esse teste falhar
+1. Escrever a menor alteração possível para que o teste passe (baby steps)
+1. Rodar novamente o teste e ver ele passar
+1. Voltar para o passo 1 e continuar repetindo esse processo.
 
 Sabemos que nossa classe de token deve criar um novo token aleatoriamente para isso vamos criar um método de testes teste a existencia do método gerar e ver ele falhar pois como sabemos, ainda não criamos a classe Token nem o método gerar.
 
@@ -755,11 +751,9 @@ describe('OiToken', function () {
 });
 ```
 
-```
+```bash
 $ npm test
-```
 
-```
 0 passing (10ms)
 1 failing
 
@@ -798,7 +792,7 @@ describe('OiToken', function () {
 });
 ```
 
-```
+```bash
 0 passing (18ms)
 1 failing
 
@@ -821,7 +815,7 @@ class OiToken {
 module.exports = new OiToken();
 ```
 
-```
+```bash
 OiToken
 Gerar
     ✓ Deve possuir o método gerar
@@ -842,7 +836,7 @@ it('Deve retornar uma string de 6 caracteres', function (done) {
 });
 ```
 
-```
+```bash
 1 passing (22ms)
 1 failing
 
@@ -866,7 +860,7 @@ class OiToken {
 module.exports = new OiToken();
 ```
 
-```
+```bash
   OiToken
     Gerar
       ✓ Deve possuir o método gerar
@@ -892,7 +886,7 @@ it('Deve gerar tokens diferentes', function (done) {
 });
 ```
 
-```
+```bash
 2 passing (26ms)
 1 failing
 
@@ -924,7 +918,7 @@ class OiToken {
 module.exports = new OiToken();
 ```
 
-```
+```bash
 OiToken
 Gerar
     ✓ Deve possuir o método gerar
@@ -951,7 +945,7 @@ it('Deve gerar tokens com apenas números', function (done) {
 });
 ```
 
-```
+```bash
 OiToken
 Gerar
     ✓ Deve possuir o método gerar
@@ -1024,7 +1018,7 @@ describe('Enviar', function () {
 });
 ```
 
-```
+```bash
 OiToken
 Gerar
     ✓ Deve possuir o método gerar
@@ -1058,7 +1052,7 @@ describe('Enviar', function () {
 });
 ```
 
-```
+```bash
 5 passing (38ms)
 1 failing
 
@@ -1090,7 +1084,6 @@ Como esse teste unitário tem uma dependência externa ( a classe de envio de me
 
 ```javascript
 it('Deve chamar o método de envio de sms', function (done) {
-   
     // criando um stub para o metodo enviarSms da classe oitoken.enviarMensagemService
     // dessa forma garantimos que o teste unitario não dependerá de nada externo.
     let enviarMensagemStub = sinon.stub(oitoken.enviarMensagem, 'enviarSms').callsFake(() => {
@@ -1104,7 +1097,7 @@ it('Deve chamar o método de envio de sms', function (done) {
 });
 ```
 
-```
+```bash
 1) OiToken
     Enviar
         Deve chamar o método de envio de sms:
@@ -1136,7 +1129,7 @@ class OiToken {
 module.exports = new OiToken();
 ```
 
-```
+```bash
 OiToken
 Gerar
     ✓ Deve possuir o método gerar
@@ -1199,7 +1192,7 @@ describe('Enviar', function () {
 });
 ```
 
-```
+```bash
 7 passing (53ms)
 1 failing
 
@@ -1232,7 +1225,7 @@ class OiToken {
 module.exports = new OiToken();
 ```
 
-```
+```bash
 OiToken
 Gerar
     ✓ Deve possuir o método gerar
@@ -1260,7 +1253,7 @@ it('Deve respeitar o fluxo correto', function (done) {
 });
 ```
 
-```
+```bash
 OiToken
 Gerar
     ✓ Deve possuir o método gerar
@@ -1415,7 +1408,7 @@ describe('OiToken', function () {
 });
 ```
 
-```
+```bash
 2 passing (49ms)
 7 failing
 
@@ -1499,7 +1492,7 @@ class OiToken {
 module.exports = new OiToken();
 ```
 
-```
+```bash
 OiToken
 Gerar
     ✓ Deve possuir o método gerar
@@ -1575,7 +1568,7 @@ describe('OiToken', function () {
 });
 ```
 
-```
+```bash
 OiToken
     Gerar
       ✓ Deve possuir o método gerar
@@ -1599,16 +1592,16 @@ Continuando o problema anterior, vamos escrever alguns testes integrados.
 
 É sempre bom poder rodar os testes unitários separadamente dos testes integrados, dessa forma ganhamos mais velocidade na execução dos testes então vamos separar a execução dos testes no package.json
 
-```
+```bash
 "scripts": {
     "test": "./node_modules/mocha/bin/mocha ./test/unitario.js",
     "integration": "./node_modules/mocha/bin/mocha ./test/integrado.js"
 }
 ```
 
-```
-$ npm test
-$ npm run integration
+```bash
+npm test
+npm run integration
 ```
 
 Levando em consideração que apenas o metodo enviar possui integração, vou exemplificar apenas ele aqui. Os demais estão cobertos pelos testes unitários.
@@ -1672,12 +1665,9 @@ describe('Teste integrado OiToken', function () {
 });
 ```
 
-
-```
+```bash
 $ npm run integration
-```
 
-```
 Teste integrado OiToken
 Enviar
     ✓ Deve enviar o token
@@ -1688,7 +1678,17 @@ Enviar
   3 passing (31ms)
 ```
 
+## Log
 
+Pendente...
+
+## Consumo de serviços
+
+Pendente...
+
+## Docker
+
+Pendente...
 
 ## Leituras
 

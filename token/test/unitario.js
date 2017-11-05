@@ -3,7 +3,7 @@ const expect = require('chai').expect;
 const sinon = require('sinon');
 
 // criando uma sessão para os testes da classe token
-describe('OiToken', function () {
+describe('Teste unitário OiToken', function () {
 
     // importando a classe OiToken
     let oitoken = require('../OiToken');
@@ -71,7 +71,7 @@ describe('OiToken', function () {
 
     describe('Enviar', function () {
 
-        let sandbox, enviarMensagemStub;
+        let sandbox, enviarMensagemStub, gerarStub;
 
         beforeEach(() => {
             sandbox = sinon.sandbox.create();
@@ -80,6 +80,10 @@ describe('OiToken', function () {
             // dessa forma garantimos que o teste unitario não dependerá de nada externo.
             enviarMensagemStub = sandbox.stub(oitoken.enviarMensagem, 'enviarSms').callsFake(() => {
                 return Promise.resolve('SMS foi enviado...');
+            });
+
+            gerarStub = sandbox.stub(oitoken, 'gerar').callsFake(() => {
+                return Promise.resolve('123456');
             });
         });
 
@@ -93,10 +97,9 @@ describe('OiToken', function () {
         });
 
         it('Deve chamar o método de geração de token', function (done) {
-            let spyGerar = sandbox.spy(oitoken, 'gerar');
             oitoken.enviar()
                 .then(() => {
-                    expect(spyGerar.calledOnce).to.be.ok;
+                    expect(gerarStub.calledOnce).to.be.ok;
                     done();
                 });
         });
@@ -120,10 +123,9 @@ describe('OiToken', function () {
         });
 
         it('Deve respeitar o fluxo correto', function (done) {
-            let spyGerar = sandbox.spy(oitoken, 'gerar');
             oitoken.enviar('219999999999')
                 .then(() => {
-                    expect(sinon.assert.callOrder(spyGerar, enviarMensagemStub));
+                    expect(sinon.assert.callOrder(gerarStub, enviarMensagemStub));
                     done();
                 });
         });

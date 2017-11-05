@@ -13,6 +13,9 @@ Usaremos como base a linguagem Javascript, mas tenha em mente que a maioria dos 
     - [Codigo Morto](#código-morto)
     - [Definiçao de classes e ES6](#definição-de-classes-e-es6)
 - [Testes](#testes)
+    - [Frameworks](#frameworks)
+    - [Tipos de teste](#tipos-de-teste)
+    - [Exemplo de teste unitário](#exemplo-de-teste-unitário)
 - [Log](#log)
 - [Consumo de serviços](#servicos)
 - [Docker](#docker)
@@ -684,7 +687,12 @@ Basicamente fazemos 3 tipos de teste:
 
 - [Teste de sistema ou de aceitação](https://pt.wikipedia.org/wiki/Teste_de_sistema) são testes que garantem que seu sistema funciona como um todo. Podemos citar aqui testes que abrem o navegador navegam tela por tela replicando e aprovando ou não cenários específicos.
 
-### Exemplificando
+
+**IMPORTANTE: Nos testes unitários sempre que precisar de um mock, use o Sinon. Não use o mockserver do digital pois seus testes unitários ficarão dependentes de uma plataforma externa e isso, além de mais lento pode trazer problemas inesperados.**
+
+**Use o mockserver apenas nos testes integrados e de frontend quando necessário.**
+
+### Exemplo de teste unitário
 
 O objetivo aqui é dar uma visão geral , por isso não entraremos nas especificidades de cada framework.
 
@@ -745,6 +753,10 @@ describe('OiToken', function () {
         });
     });
 });
+```
+
+```
+$ npm test
 ```
 
 ```
@@ -971,9 +983,13 @@ class EnviarMensagem {
 module.exports = new EnviarMensagem();
 ```
 
-Vamos agorar criar o método que testa a geração de token e o envio da mensagem. Para isso vamos precisar aplicar os conceitos de spy e stub. 
+Vamos agorar criar o método que testa a geração de token e o envio da mensagem. Para isso vamos precisar aplicar os conceitos de spy e stub.
 
 A biblioteca que nos ajudará com isso é o sinon, para isso faça o import no inicio do arquivo.
+
+**IMPORTANTE: Nos testes unitários sempre que precisar de um mock, use o Sinon. Não use o mockserver do digital pois seus testes unitários ficarão dependentes de uma plataforma externa e isso, além de mais lento pode trazer problemas inesperados.**
+
+**Use o mockserver apenas nos testes integrados e de frontend quando necessário.**
 
 ```javascript
 // test/unitario.js
@@ -1501,10 +1517,176 @@ Enviar
 9 passing (54ms)
 ```
 
-Vamos transformar o metodo gerar em uma promisse, dessa forma garantimos a ordem.
+Situação extra! Se você pegou o conceito dos testes unitários vai perceber que ainda tem uma coisa que pode melhorar.
+
+Repare que nos testes do método enviar nós colocamos um Spy para metodo gerar, mas se levarmos em conta que estamos testando unitariamente o comportamento do método enviar seria interessante mockarmos o metodo gerar também.
+
+Dessa forma, garantimos que um bug no método gerar não refletirá nos testes unitários do enviar mas apenas nos testes unitários do proprio método que deu erro.
+
+Vamos então substituir o spy por um stub que retorna sempre um token qualquer.
+
+```javascript
+// test/unitario.js
+const expect = require('chai').expect;
+const sinon = require('sinon');
+
+// criando uma sessão para os testes da classe token
+describe('OiToken', function () {
+
+    // importando a classe OiToken
+    let oitoken = require('../OiToken');
+
+    describe('Gerar', function () {
+        // ...
+    });
+
+    describe('Enviar', function () {
+
+        let sandbox, enviarMensagemStub, gerarStub;
+
+        beforeEach(() => {
+            // ...
+
+            gerarStub = sandbox.stub(oitoken, 'gerar').callsFake(() => {
+                return Promise.resolve('123456');
+            });
+        });
+
+        // ...
+
+        it('Deve chamar o método de geração de token', function (done) {
+            oitoken.enviar()
+                .then(() => {
+                    expect(gerarStub.calledOnce).to.be.ok;
+                    done();
+                });
+        });
+
+        // ...
+
+        it('Deve respeitar o fluxo correto', function (done) {
+            oitoken.enviar('219999999999')
+                .then(() => {
+                    expect(sinon.assert.callOrder(gerarStub, enviarMensagemStub));
+                    done();
+                });
+        });
+    });
+});
+```
+
+```
+OiToken
+    Gerar
+      ✓ Deve possuir o método gerar
+      ✓ Deve retornar uma string de 6 caracteres
+      ✓ Deve gerar tokens diferentes
+      ✓ Deve gerar tokens com apenas números
+    Enviar
+      ✓ Deve possuir o método enviar
+      ✓ Deve chamar o método de geração de token
+      ✓ Deve chamar o método de envio de sms
+      ✓ Deve chamar o método de envio de sms com os parâmetros corretos
+      ✓ Deve respeitar o fluxo correto
 
 
+  9 passing (50ms)
+```
 
+### Exemplo de teste integrado
+
+Continuando o problema anterior, vamos escrever alguns testes integrados.
+
+É sempre bom poder rodar os testes unitários separadamente dos testes integrados, dessa forma ganhamos mais velocidade na execução dos testes então vamos separar a execução dos testes no package.json
+
+```
+"scripts": {
+    "test": "./node_modules/mocha/bin/mocha ./test/unitario.js",
+    "integration": "./node_modules/mocha/bin/mocha ./test/integrado.js"
+}
+```
+
+```
+$ npm test
+$ npm run integration
+```
+
+Levando em consideração que apenas o metodo enviar possui integração, vou exemplificar apenas ele aqui. Os demais estão cobertos pelos testes unitários.
+
+```javascript
+// test/integrado.js
+const expect = require('chai').expect;
+const sinon = require('sinon');
+
+// criando uma sessão para os testes da classe token
+describe('Teste integrado OiToken', function () {
+
+    // importando a classe OiToken
+    let oitoken = require('../OiToken');
+
+    describe('Enviar', function () {
+
+        let sandbox;
+
+        beforeEach(() => {
+            sandbox = sinon.sandbox.create();
+        });
+
+        afterEach(() => {
+            sandbox.restore();
+        });
+
+        it('Deve enviar o token', function (done) {
+            // mockando apenas o gerar
+            let gerarStub = sandbox.stub(oitoken, 'gerar').callsFake(() => {
+                return Promise.resolve('123456');
+            });
+
+            oitoken.enviar('21999999999')
+                .then(resultado => {
+                    expect(resultado).to.be.equal('O SMS [123456] foi enviado para 21999999999');
+                    done();
+                });
+        });
+
+        it('Deve gerar o token', function (done) {
+            // mockando apenas o enviar
+            let gerarStub = sandbox.stub(oitoken.enviarMensagem, 'enviarSms').callsFake((token, numero) => {
+
+                // garante que esta gerando o token
+                expect(token).to.match(/^[0-9]{6}$/);
+
+                done();
+            });
+
+            oitoken.enviar('21999999999');
+        });
+
+        it('Deve gerar e enviar o token', function (done) {
+            oitoken.enviar('21999999999')
+                .then(resultado => {
+                    done();
+                });
+        });
+    });
+});
+```
+
+
+```
+$ npm run integration
+```
+
+```
+Teste integrado OiToken
+Enviar
+    ✓ Deve enviar o token
+    ✓ Deve gerar o token
+    ✓ Deve gerar e enviar o token
+
+
+  3 passing (31ms)
+```
 
 
 

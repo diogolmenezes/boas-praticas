@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha"
+    "test": "./node_modules/mocha/bin/mocha ./test/unitario.js",
+    "integration": "./node_modules/mocha/bin/mocha ./test/integrado.js"
   },
   "author": "",
   "license": "ISC",

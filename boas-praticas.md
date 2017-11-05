@@ -12,7 +12,10 @@ Usaremos como base a linguagem Javascript, mas tenha em mente que a maioria dos 
   - [Classes métodos e funções](#classes-métodos-e-funções)
   - [Codigo Morto](#código-morto)
   - [Definiçao de classes e ES6](#definição-de-classes-e-es6)
+  - [Closures](#closures)
   - [Arquivo Readme](#arquivo-readme)
+  - [Estrutura de diretórios](#estrutura-de-diretorios)
+  - [Scripts NPM](#scripts-npm)
 - [Testes](#testes)
   - [Frameworks](#frameworks)
   - [Tipos de teste](#tipos-de-teste)
@@ -655,6 +658,10 @@ class Fatura {
 };
 ```
 
+## Closures
+
+TODO: escrever o modulo de clusures
+
 ## Arquivo Readme
 
 Devemos dedicar tempo ao arquivo readme colocano nele informações para ajudar o time com tarefas relacionadas ao projeto.
@@ -682,6 +689,42 @@ Depois dessas informaçõe básicas você pode usar o Readme para ensinar a inst
 O importante é que seu readme não seja um arquivo sem propósito. Use ele para ajudar as pessoas que podem precisar do seu projeto.
 
 Esse [repositório](https://github.com/matiassingers/awesome-readme) tem alguns exemplos de arquivos de readme bem escritos.
+
+TODO: link para algum readme do digital
+
+## Estrutura de diretórios
+
+É importante seguirmos um padrão em nossos projetos, caso contrario o entendimento e a manutenção podem ficar comprometidos.
+
+Por isso, criamos um esqueleto de aplicação para o backend e para o frontend que pode ser baixado e aplicado ao seu novo projeto.
+
+A evolução desse projeto depende de todos nós, por isso caso você encontre um problema ou tenha alguma sugestão, procure o desenvolvedor responsavel pelas aplicações cross e converse sobre o seu cenário para que sua melhoria possa ser analisada e aplicada.
+
+TODO: link para o gerador de projetos
+
+## Scripts NPM
+
+Use o NPM para rodar scrips que vão te ajudar nas tarefas do seu projeto.
+
+Normalmente usamos:
+
+```bash
+npm start // iniciar o projeto
+npm test  // rodar os testes
+```
+
+Mas podemos criar diversas tasks para nos ajudar, basta incluir o código dentro da sessão scripts do seu package.json e depois rodar com npm run.
+
+```javascript
+  "scripts": {
+    "token": "node -e 'let oiToken = require(\"./OiToken\"); oiToken.gerar().then(console.log);'"
+  }
+```
+
+```bash
+$ npm run token
+894010
+```
 
 ## Testes
 
@@ -1724,9 +1767,13 @@ Todo esse universo é bem legal mas de nada adianta se não temos logs de qualid
 
 Nesse módulo falaremos sobre algumas boas praticas para tornar essa tarefa mais fácil.
 
+TODO: terminar o modulo de logs
+
 ## Consumo de serviços
 
 A grande maioria dos projetos tem tipo de integração com serviços externos. A ideia aqui é detalhar algumas boas praticas que devemos ter em mente no momento de consumir um serviço.
+
+TODO: terminar o modulo de serviços
 
 ## Docker
 

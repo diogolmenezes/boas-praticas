@@ -657,9 +657,9 @@ class Fatura {
 
 ## Arquivo Readme
 
-Devemos dedicar tempo ao arquivo readme do projeto. Nele podemos colocar informações que ajudaram o time com tarefas relacionadas ao projeto.
+Devemos dedicar tempo ao arquivo readme do projeto. Nele podemos colocar informações importantes para ajudar o time com tarefas relacionadas ao projeto.
 
-Em primeiro lugar, procure sempre colocar uma descrição breve e clara dos objetivos do projeto:
+Em primeiro lugar procure sempre colocar uma descrição breve e clara dos objetivos do projeto:
 
 ```bash
 Visão Geral

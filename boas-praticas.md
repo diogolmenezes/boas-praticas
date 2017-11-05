@@ -656,17 +656,273 @@ class Fatura {
 
 ## Testes
 
-Testes são tão ou mais importantes que a própria entrega. Pode parecer polêmico mas se seus casos de teste não existem ou são ruins ninguém pode garantir a qualidade da sua entrega.
-
-Se sua suite de testes é falha ou não existe, toda vez que mexer no código você não terá certeza de que não quebrou nada.
+**Testes são tão ou mais importantes que a própria entrega**. Essa afirmação pode parecer polêmica mas se seus casos de teste não existem ou são ruins, sua entrega perde valor pois ninguém pode garantir sua qualidade.
 
 Os testes são os melhores amigos do desenvolvedor, eles blidam você, seu time, seu projeto e a sua empresa de entregarem algo com problema. Quanto mais completa e confiavel for sua suite de testes, maior é a sua capacidade de entrega e a sua tranquilidade de que tudo vai sair conforme o esperado.
 
-Aqui na Oi, já temos implementado o Sonar que ajudará você a perceber falhas na na cobertura do seu projeto.
+Se sua suite de testes é falha ou não existe, toda vez que mexer no código você não terá certeza de que não quebrou nada e isso pode gerar uma instabilidade em todo o ambiente.
 
-A metodologia TDD é encorajada por aqui já que além de criar o caso de teste você desenvolve orientado ao negócio criando APIs muito mais bonitas e fáceis de usar e de testar.
+Aqui **na Oi, encorajamos a metodologia TDD**, acreditamos que **escrever o código começando pelos testes nos faz trabalhar mais orientados ao negócio** e criar APIs muito mais simples, bonitas, fáceis de usar e de testar.
 
-Recomendamos fortemente que utilize TDD, mas se isso for complicado no momento, faça os testes depois do código mas FAÇA! Não podemos ter entregas sem teste, essa é uma premissa basica.
+Portanto, recomendamos fortemente que utilize TDD, mas se isso parecer complicado em um primeiro momento, escreva seu código e em seguida escreva os cenários de testes que testem o código feito. O importante é que não podemos ter entregas sem teste automatizado, essa é uma premissa basica.
+
+### Frameworks
+
+Para criar os testes, nós utilizamos basicamente:
+
+- [Mocha](https://github.com/mochajs/mocha) como Framework de testes padrão
+- [Chai](http://chaijs.com/) como biblioteca de assert
+- [Sinon](http://sinonjs.org/) para criar stubs, mocks e spies
+
+### Tipos de teste
+
+Basicamente fazemos 3 tipos de teste:
+
+- [Teste unitário](https://pt.wikipedia.org/wiki/Teste_de_unidade) testa isoladamente uma única unidade do sistema. O **teste unitário não deve depender de nenhuma dependência externa**, para isso caso a funcionalidade testada tenha alguma dependência nós a mockamos com ajuda do [Sinon](http://sinonjs.org/).
+
+- [Teste integrado](https://pt.wikipedia.org/wiki/Teste_de_integra%C3%A7%C3%A3o) aqui o objetivo é testar a integração de uma ou mais partes do sistema. Com esse tipo de teste, nós garantimos que a gravação no banco de dados está correta, que o e-mail está sendo realmente enviado etc.
+
+- [Teste de sistema ou de aceitação](https://pt.wikipedia.org/wiki/Teste_de_sistema) são testes que garantem que seu sistema funciona como um todo. Podemos citar aqui testes que abrem o navegador navegam tela por tela replicando e aprovando ou não cenários específicos.
+
+### Exemplificando
+
+O objetivo aqui é dar uma visão geral , por isso não entraremos nas especificidades de cada framework.
+
+Para exemplificar a criação dos testes unitários e integrados, criaremos utilizando TDD uma funcionalidade similar ao projeto OiToken que cria e envia um token de 6 caracteres por SMS.
+
+O projeto desse exemplo pode ser baixado [aqui]().
+
+---
+
+O primeiro passo foi instalar as dependências, para isso basta.
+
+```
+$ npm i mocha --save-dev
+$ npm i chai --save-dev
+$ npm i sinon --save-dev
+```
+
+O segundo passo foi configurar o mocha como engine de teste do projeto no package.json
+
+```javascript
+ "scripts": {
+    "test": "./node_modules/mocha/bin/mocha"
+  },
+```
+
+Por padrão o mocha busca pelos arquivos de teste dentro do diretório **test**, criei o diretório e em seguida criei o arquivo onde colocaremos os testes unitários e chamei ele de **unitario.js**.
+
+```javascript
+// importanto o modulo expect do chai
+const expect = require('chai').expect;
+
+// criando uma sessão para os testes da classe OiToken
+describe('OiToken', function () {
+});
+```
+
+Antes de começarmos, é importante lembrar que no [Test Driven Development ou TDD](http://tdd.caelum.com.br/) nós escrevemos os testes antes mesmo de escrever o código. O ciclo de desenvolvimento consiste em:
+
+1. Escrever um teste
+2. Rodar e ver esse teste falhar
+3. Escrever a menor alteração possível para que o teste passe (baby steps)
+4. Rodar novamente o teste e ver ele passar
+5. Voltar para o passo 1 e continuar repetindo esse processo.
+
+Sabemos que nossa classe de token deve criar um novo token aleatoriamente para isso vamos criar um método de testes teste a existencia do método gerar e ver ele falhar pois como sabemos, ainda não criamos a classe Token nem o método gerar.
+
+```javascript
+// importanto o modulo expect do chai
+const expect = require('chai').expect;
+
+// criando uma sessão para os testes da classe token
+describe('OiToken', function () {
+    describe('Gerar', function() {
+        it('Deve possuir o método gerar', function(done) {
+            let token = new OiToken();
+            expect(token).to.have.property('gerar');
+            done();
+        });
+    });
+});
+```
+
+```
+0 passing (10ms)
+1 failing
+
+1) OiToken
+    Gerar
+        Deve possuir o método gerar:
+    ReferenceError: OiToken is not defined
+    at Context.<anonymous> (test/unitario.js:7:29)
+```
+
+Agora, vamos fazer a menor alteração possível para que esse teste passe. Essa alteração é criar a classe OiToken e alterar nosso teste para que possa usar essa classe criada.
+
+```javascript
+// OiToken.js
+class OiToken {
+};
+
+module.exports = new OiToken();
+```
+
+```javascript
+// test/unitario.js
+const expect = require('chai').expect;
+
+// criando uma sessão para os testes da classe token
+describe('OiToken', function () {
+
+    let oitoken = require('../OiToken');
+
+    describe('Gerar', function () {
+        it('Deve possuir o método gerar', function (done) {
+            expect(oitoken).to.have.property('gerar');
+            done();
+        });
+    });
+});
+```
+
+```
+0 passing (18ms)
+1 failing
+
+1) OiToken
+    Gerar
+        Deve possuir o método gerar:
+    AssertionError: expected {} to have property 'gerar'
+    at Context.<anonymous> (test/unitario.js:12:37)
+```
+
+Como podemos ver, agora o resultado do teste está falhando pois não encontrou o método gerar. Vamos fazer a menor alteração possível para que esse teste passe criando o método gerar vazio na classe OiToken e rodar novamente os testes
+
+```javascript
+// OiToken.js
+class OiToken {
+    gerar() {
+    };
+};
+
+module.exports = new OiToken();
+```
+
+```
+OiToken
+Gerar
+    ✓ Deve possuir o método gerar
+
+1 passing (18ms)
+```
+
+Legal! Vimos nosso primeiro test passando, mas como sabemos, ainda temos muito desenvolvimento pela frente até que possamos dar esse trabalho como terminado.
+
+A partir de agora, não comentarei tão detalhadamente os baby steps para que esse texto não fique muito extenso, mas o método de trabalho continua o mesmo!
+
+Vamos escrever o proximo teste.
+
+```javascript
+it('Deve retornar uma string de 6 caracteres', function (done) {
+    expect(oitoken.gerar().length).to.be.equal(6);
+    done();
+});
+```
+
+```
+1 passing (22ms)
+1 failing
+
+1) OiToken
+    Gerar
+        Deve retornar uma string de 6 caracteres:
+    TypeError: Cannot read property 'length' of undefined
+    at Context.<anonymous> (test/unitario.js:17:35)
+```
+
+O baby step nesse caso é fazer com que o método gerar retorne uma string qualquer de 6 caracteres. Conforme sua experiência com o TDD for aumentanto esses "baby steps" podem ser maiores e você pode pular passos muito triviais para agilizar o desenvolvimento, mas nesse momento de aprendizado, tente passos menores.
+
+```javascript
+// OiToken.js
+class OiToken {
+    gerar() {
+        return '123456';
+    };
+};
+
+module.exports = new OiToken();
+```
+
+```
+  OiToken
+    Gerar
+      ✓ Deve possuir o método gerar
+      ✓ Deve retornar uma string de 6 caracteres
+
+
+  2 passing (21ms)
+```
+
+Devemos agorar garantir que o gerar não gera sempre o mesmo token.
+
+```javascript
+it('Deve gerar tokens diferentes', function (done) {
+    let primeira = oitoken.gerar();
+    let segunda = oitoken.gerar();
+    let terceira = oitoken.gerar();
+
+    expect(primeira).to.not.be.equal(segunda);
+    expect(primeira).to.not.be.equal(terceira);
+    expect(segunda).to.not.be.equal(terceira);
+
+    done();
+});
+```
+
+```
+2 passing (26ms)
+1 failing
+
+1) OiToken
+    Gerar
+        Deve gerar tokens diferentes:
+
+    AssertionError: expected '123456' to not equal '123456'
+    + expected - actual
+
+
+    at Context.<anonymous> (test/unitario.js:26:40)
+```
+
+Agora ajustamos o método gerar para passar no teste.
+
+```javascript
+// OiToken.js
+class OiToken {
+    gerar() {
+        // por ser um exemplo, não levamos em consideração como esse numero é gerado
+        // precisamos apenas de um numero aleatorio de 6 caracteres
+        var token = String(parseInt(Math.random() * (999999 - 111111) + 111111));
+
+        return token;
+    };
+};
+
+module.exports = new OiToken();
+```
+
+```
+OiToken
+Gerar
+    ✓ Deve possuir o método gerar
+    ✓ Deve retornar uma string de 6 caracteres
+    ✓ Deve gerar tokens diferentes
+
+
+3 passing (22ms)
+```
+
 
 ## Leituras
 

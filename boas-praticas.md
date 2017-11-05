@@ -666,7 +666,7 @@ Visão Geral
 O projeto OiToken é responsável por criar e enviar tokens por diversos canais (sms, voz, email, tv).
 ```
 
-Em seguida, você pode colocar o e-mail dos responsáveil pelo projeto assim, caso alguem tenha alguma dúvida, sabera quem procurar.
+Em seguida, você pode colocar o e-mail dos responsáveil pelo projeto assim, caso alguem tenha alguma dúvida saberá quem procurar.
 
 ```bash
 Equipe:

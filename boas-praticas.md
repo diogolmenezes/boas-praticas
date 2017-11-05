@@ -923,6 +923,590 @@ Gerar
 3 passing (22ms)
 ```
 
+Para finalizar os testes da geração do token, precisamos garantir que temos apenas números sendo gerados.
+
+```javascript
+it('Deve gerar tokens com apenas números', function (done) {
+    let primeira = oitoken.gerar();
+    let segunda = oitoken.gerar();
+    let terceira = oitoken.gerar();
+
+    expect(primeira).to.match(/^[0-9]{6}$/);
+    expect(segunda).to.match(/^[0-9]{6}$/);
+    expect(terceira).to.match(/^[0-9]{6}$/);
+
+    done();
+});
+```
+
+```
+OiToken
+Gerar
+    ✓ Deve possuir o método gerar
+    ✓ Deve retornar uma string de 6 caracteres
+    ✓ Deve gerar tokens diferentes
+    ✓ Deve gerar tokens com apenas números
+
+
+4 passing (21ms)
+```
+
+Legal, agora tesmos uma classe OiToken que é capaz de gerar um token com 6 números aleatórios. Temos também um 4 casos de testes unitários que garantem que tudo irá funcionar como o esperado.
+
+Para continuar nosso exemplo precisamos criar agora um método que irá gerar e em seguida enviar o token gerado por SMS.
+
+Para simular o serviço de envio de SMS e não termos que colocar no projeto toda uma estrutura real de evio de SMS criei uma classe em soap/enviarMensagem.js vazia com o método enviar.
+
+```javascript
+// soap/enviarMensagem.js
+// Simula o envio de um SMS para o exemplo
+class EnviarMensagem {
+    enviarSms(texto, numero) {
+        return new Promise((resolve, reject) => {
+            resolve(`O SMS [${texto}] foi enviado para ${numero}`);
+        });
+    };
+};
+
+module.exports = new EnviarMensagem();
+```
+
+Vamos agorar criar o método que testa a geração de token e o envio da mensagem. Para isso vamos precisar aplicar os conceitos de spy e stub. 
+
+A biblioteca que nos ajudará com isso é o sinon, para isso faça o import no inicio do arquivo.
+
+```javascript
+// test/unitario.js
+const expect = require('chai').expect;
+const sinon = require('sinon');
+
+// criando uma sessão para os testes da classe token
+describe('OiToken', function () {
+    // ...
+});
+```
+
+Precisamos testar a existència do método enviar na classe OiToken.
+
+```javascript
+describe('Enviar', function () {
+    it('Deve possuir o método enviar', function (done) {
+        expect(oitoken).to.have.property('enviar');
+        done();
+    });
+});
+```
+
+Agora precisamos criar o método enviar na classe OiToken
+
+```javascript
+describe('Enviar', function () {
+    it('Deve possuir o método enviar', function (done) {
+        expect(oitoken).to.have.property('enviar');
+        done();
+    });
+});
+```
+
+```
+OiToken
+Gerar
+    ✓ Deve possuir o método gerar
+    ✓ Deve retornar uma string de 6 caracteres
+    ✓ Deve gerar tokens diferentes
+    ✓ Deve gerar tokens com apenas números
+Enviar
+    ✓ Deve possuir o método enviar
+
+
+5 passing (23ms)
+```
+
+A primeira coisa que o método enviar precisa fazer é chamar o método gerar já criado para gerar um novo token.
+
+Para isso vamos usar o spy do Sinon. O Spy espiona o método selecionado e nos dá a possibilidade de ver se ele foi chamado.
+
+```javascript
+describe('Enviar', function () {
+    it('Deve possuir o método enviar', function (done) {
+        expect(oitoken).to.have.property('enviar');
+        done();
+    });
+
+    it('Deve chamar o método de geração de token', function (done) {
+        let spyGerar = sinon.spy(oitoken, 'gerar');
+        oitoken.enviar();
+        expect(spyGerar.calledOnce).to.be.ok;
+        done();
+    });
+});
+```
+
+```
+5 passing (38ms)
+1 failing
+
+1) OiToken
+    Enviar
+        Deve chamar o método de geração de token:
+    AssertionError: expected false to be truthy
+    at Context.<anonymous> (test/unitario.js:71:46)
+```
+
+Agora ajustamos o método enviar para chamar o método gerar.
+
+```javascript
+// OiToken.js
+class OiToken {
+    //...
+
+    enviar() {
+        let token = this.gerar();
+    };
+};
+
+module.exports = new OiToken();
+```
+
+O proximo passo é garantir que o método enviarSms da classe EnviarMensagem está sendo chamado também.
+
+Como esse teste unitário tem uma dependência externa ( a classe de envio de mensagem ) teremos que usar o Sinon para fazer um Stub do método de enviarSms da classe EnviarMensagem garantindo que ele sempre retornará sucesso e isolando as dependências.
+
+```javascript
+it('Deve chamar o método de envio de sms', function (done) {
+   
+    // criando um stub para o metodo enviarSms da classe oitoken.enviarMensagemService
+    // dessa forma garantimos que o teste unitario não dependerá de nada externo.
+    let enviarMensagemStub = sinon.stub(oitoken.enviarMensagem, 'enviarSms').callsFake(() => {
+        return Promise.resolve('SMS foi enviado...');
+    });
+
+    oitoken.enviar();
+
+    expect(enviarMensagemStub.calledOnce).to.be.ok;
+    done();
+});
+```
+
+```
+1) OiToken
+    Enviar
+        Deve chamar o método de envio de sms:
+    Error: Trying to stub property 'enviar' of undefined
+    at throwOnFalsyObject (node_modules/sinon/lib/sinon/throw-on-falsy-object.js:7:15)
+    at Object.stub (node_modules/sinon/lib/sinon/stub.js:21:24)
+    at Context.<anonymous> (test/unitario.js:77:44)
+```
+
+Agora que o teste falhou, temos que modificar a classe do OiToken para que chame o método enviar da classe de envio de SMS.
+
+```javascript
+// OiToken.js
+class OiToken {
+    constructor() {
+        this.enviarMensagem = require('./soap/enviarMensagem');
+    };
+
+    gerar() {
+        // ...
+    };
+
+    enviar() {
+        let token = this.gerar();
+        this.enviarMensagem.enviarSms('', '');
+    };
+};
+
+module.exports = new OiToken();
+```
+
+```
+OiToken
+Gerar
+    ✓ Deve possuir o método gerar
+    ✓ Deve retornar uma string de 6 caracteres
+    ✓ Deve gerar tokens diferentes
+    ✓ Deve gerar tokens com apenas números
+Enviar
+    ✓ Deve possuir o método enviar
+    ✓ Deve chamar o método de geração de token
+    ✓ Deve chamar o método de envio de sms
+
+
+7 passing (44ms)
+```
+
+Repare que nesse momento reparamos que o método enviarSms precisa de um texto que no nosso caso é o token e de um número de telefone. Nós esquecemos isso ao definir o método enviar da classe de Token, famos fazer essa alteração e testar se a classe de envio de SMS está sendo chamada com os parâmetros corretos.
+
+Vamos aproveitar e colocar o stub do método de envio de SMS para um escopo mais global, assim todos os métodos do describe usaram esse stub.
+
+```javascript
+describe('Enviar', function () {
+
+    let sandbox, enviarMensagemStub;
+
+    beforeEach(() => {
+        sandbox = sinon.sandbox.create();
+
+        // criando um stub para o metodo enviar da classe oitoken.enviarMensagemService
+        // dessa forma garantimos que o teste unitario não dependerá de nada externo.
+        enviarMensagemStub = sandbox.stub(oitoken.enviarMensagem, 'enviarSms').callsFake(() => {
+            return Promise.resolve('SMS foi enviado...');
+        });
+    });
+
+    afterEach(() => {
+        sandbox.restore();
+    });
+
+    it('Deve possuir o método enviar', function (done) {
+        // ...
+    });
+
+    it('Deve chamar o método de geração de token', function (done) {
+        // ...
+    });
+
+    it('Deve chamar o método de envio de sms', function (done) {
+        oitoken.enviar();
+        expect(enviarMensagemStub.calledOnce).to.be.ok;
+        done();
+    });
+
+    it('Deve chamar o método de envio de sms com os parâmetros corretos', function (done) {
+        oitoken.enviar('21999999999');
+
+        // testa se o metodo de envio de SMS esta sendo chamado com um token e com o número de telefone correto.
+        expect(enviarMensagemStub.calledWith(sinon.match(/^[0-9]{6}$/), '21999999999')).to.be.ok;
+        done();
+    });
+});
+```
+
+```
+7 passing (53ms)
+1 failing
+
+1) OiToken
+    Enviar
+        Deve chamar o método de envio de sms com os parâmetros corretos:
+    AssertionError: expected false to be truthy
+    at Context.<anonymous> (test/unitario.js:88:91)
+```
+
+Agora repassamos os parâmetros corretamente.
+
+```javascript
+// OiToken.js
+class OiToken {
+    constructor() {
+        this.enviarMensagem = require('./soap/enviarMensagem');
+    };
+
+    gerar() {
+        // ...
+    };
+
+    enviar(numero) {
+        let token = this.gerar();
+        this.enviarMensagem.enviarSms(token, numero);
+    };
+};
+
+module.exports = new OiToken();
+```
+
+```
+OiToken
+Gerar
+    ✓ Deve possuir o método gerar
+    ✓ Deve retornar uma string de 6 caracteres
+    ✓ Deve gerar tokens diferentes
+    ✓ Deve gerar tokens com apenas números
+Enviar
+    ✓ Deve possuir o método enviar
+    ✓ Deve chamar o método de geração de token
+    ✓ Deve chamar o método de envio de sms
+    ✓ Deve chamar o método de envio de sms com os parâmetros corretos
+
+
+8 passing (40ms)
+```
+
+Precisamos garantir que a ordem das chamadas está sendo respeitada.
+
+```javascript
+it('Deve respeitar o fluxo correto', function (done) {
+    let spyGerar = sandbox.spy(oitoken, 'gerar');
+    oitoken.enviar('219999999999');
+    expect(sinon.assert.callOrder(spyGerar, enviarMensagemStub));
+    done();
+});
+```
+
+```
+OiToken
+Gerar
+    ✓ Deve possuir o método gerar
+    ✓ Deve retornar uma string de 6 caracteres
+    ✓ Deve gerar tokens diferentes
+    ✓ Deve gerar tokens com apenas números
+Enviar
+    ✓ Deve possuir o método enviar
+    ✓ Deve chamar o método de geração de token
+    ✓ Deve chamar o método de envio de sms
+    ✓ Deve chamar o método de envio de sms com os parâmetros corretos
+    ✓ Deve respeitar o fluxo correto
+
+    9 passing (43ms)
+```
+
+Para finalizar nosso exemplo de teste unitário em grande estilo, vamos refatorar os métodos e os testes do gerar e do enviar para que virem promisses.
+
+Começamos pelos testes, claro.
+
+```javascript
+// test/unitario.js
+const expect = require('chai').expect;
+const sinon = require('sinon');
+
+// criando uma sessão para os testes da classe token
+describe('OiToken', function () {
+
+    // importando a classe OiToken
+    let oitoken = require('../OiToken');
+
+    describe('Gerar', function () {
+        it('Deve possuir o método gerar', function (done) {
+            expect(oitoken).to.have.property('gerar');
+            done();
+        });
+
+        it('Deve retornar uma string de 6 caracteres', function (done) {
+            oitoken.gerar()
+                .then(token => {
+                    expect(token.length).to.be.equal(6);
+                    done();
+                });
+        });
+
+        it('Deve gerar tokens diferentes', function (done) {
+
+            let primeira, segunda, terceira;
+
+            oitoken.gerar()
+                .then(token => {
+                    primeira = token;
+                    return oitoken.gerar();
+                })
+                .then(token => {
+                    segunda = token;
+                    return oitoken.gerar();
+                })
+                .then(token => {
+                    terceira = token;
+
+                    expect(primeira).to.not.be.equal(segunda);
+                    expect(primeira).to.not.be.equal(terceira);
+                    expect(segunda).to.not.be.equal(terceira);
+
+                    done();
+                });
+        });
+
+        it('Deve gerar tokens com apenas números', function (done) {
+            oitoken.gerar()
+                .then(token => {
+                    primeira = token;
+                    return oitoken.gerar();
+                })
+                .then(token => {
+                    segunda = token;
+                    return oitoken.gerar();
+                })
+                .then(token => {
+                    terceira = token;
+
+                    expect(primeira).to.match(/^[0-9]{6}$/);
+                    expect(segunda).to.match(/^[0-9]{6}$/);
+                    expect(terceira).to.match(/^[0-9]{6}$/);
+
+                    done();
+                });
+        });
+
+    });
+
+    describe('Enviar', function () {
+
+        let sandbox, enviarMensagemStub;
+
+        beforeEach(() => {
+            sandbox = sinon.sandbox.create();
+
+            // criando um stub para o metodo enviar da classe oitoken.enviarMensagemService
+            // dessa forma garantimos que o teste unitario não dependerá de nada externo.
+            enviarMensagemStub = sandbox.stub(oitoken.enviarMensagem, 'enviarSms').callsFake(() => {
+                return Promise.resolve('SMS foi enviado...');
+            });
+        });
+
+        afterEach(() => {
+            sandbox.restore();
+        });
+
+        it('Deve possuir o método enviar', function (done) {
+            expect(oitoken).to.have.property('enviar');
+            done();
+        });
+
+        it('Deve chamar o método de geração de token', function (done) {
+            let spyGerar = sandbox.spy(oitoken, 'gerar');
+            oitoken.enviar()
+                .then(() => {
+                    expect(spyGerar.calledOnce).to.be.ok;
+                    done();
+                });
+        });
+
+        it('Deve chamar o método de envio de sms', function (done) {
+            oitoken.enviar()
+                .then(() => {
+                    expect(enviarMensagemStub.calledOnce).to.be.ok;
+                    done();
+                });
+        });
+
+        it('Deve chamar o método de envio de sms com os parâmetros corretos', function (done) {
+            oitoken.enviar('21999999999')
+                .then(() => {
+                    // testa se o metodo de envio de SMS esta sendo chamado com um token e com o número de telefone correto.
+                    expect(enviarMensagemStub.calledWith(sinon.match(/^[0-9]{6}$/), '21999999999')).to.be.ok;
+                    done();
+                });
+
+        });
+
+        it('Deve respeitar o fluxo correto', function (done) {
+            let spyGerar = sandbox.spy(oitoken, 'gerar');
+            oitoken.enviar('219999999999')
+                .then(() => {
+                    expect(sinon.assert.callOrder(spyGerar, enviarMensagemStub));
+                    done();
+                });
+        });
+    });
+});
+```
+
+```
+2 passing (49ms)
+7 failing
+
+1) OiToken
+    Gerar
+        Deve retornar uma string de 6 caracteres:
+    TypeError: oitoken.gerar(...).then is not a function
+    at Context.<anonymous> (test/unitario.js:19:18)
+
+2) OiToken
+    Gerar
+        Deve gerar tokens diferentes:
+    TypeError: oitoken.gerar(...).then is not a function
+    at Context.<anonymous> (test/unitario.js:30:18)
+
+3) OiToken
+    Gerar
+        Deve gerar tokens com apenas números:
+    TypeError: oitoken.gerar(...).then is not a function
+    at Context.<anonymous> (test/unitario.js:51:18)
+
+4) OiToken
+    Enviar
+        Deve chamar o método de geração de token:
+    TypeError: Cannot read property 'then' of undefined
+    at Context.<anonymous> (test/unitario.js:98:17)
+
+5) OiToken
+    Enviar
+        Deve chamar o método de envio de sms:
+    TypeError: Cannot read property 'then' of undefined
+    at Context.<anonymous> (test/unitario.js:106:17)
+
+6) OiToken
+    Enviar
+        Deve chamar o método de envio de sms com os parâmetros corretos:
+    TypeError: Cannot read property 'then' of undefined
+    at Context.<anonymous> (test/unitario.js:114:17)
+
+7) OiToken
+    Enviar
+        Deve respeitar o fluxo correto:
+    TypeError: Cannot read property 'then' of undefined
+    at Context.<anonymous> (test/unitario.js:125:17)
+```
+
+Agora alteramos a classe OiToken
+
+```javascript
+// OiToken.js
+class OiToken {
+    constructor() {
+        this.enviarMensagem = require('./soap/enviarMensagem');
+    };
+
+    gerar() {
+        return new Promise((resolve, reject) => {
+            try {
+                // por ser um exemplo, não levamos em consideração como esse numero é gerado
+                // precisamos apenas de um numero aleatorio de 6 caracteres
+                var token = String(parseInt(Math.random() * (999999 - 111111) + 111111));
+
+                resolve(token);
+
+            } catch (error) {
+                reject(error);
+            }
+        });
+    };
+
+    enviar(numero) {
+        var base = this;
+
+        return this.gerar()
+            .then(token => {
+                return base.enviarMensagem.enviarSms(token, numero);
+            })
+    };
+};
+
+module.exports = new OiToken();
+```
+
+```
+OiToken
+Gerar
+    ✓ Deve possuir o método gerar
+    ✓ Deve retornar uma string de 6 caracteres
+    ✓ Deve gerar tokens diferentes
+    ✓ Deve gerar tokens com apenas números
+Enviar
+    ✓ Deve possuir o método enviar
+    ✓ Deve chamar o método de geração de token
+    ✓ Deve chamar o método de envio de sms
+    ✓ Deve chamar o método de envio de sms com os parâmetros corretos
+    ✓ Deve respeitar o fluxo correto
+
+
+9 passing (54ms)
+```
+
+Vamos transformar o metodo gerar em uma promisse, dessa forma garantimos a ordem.
+
+
+
+
+
 
 ## Leituras
 

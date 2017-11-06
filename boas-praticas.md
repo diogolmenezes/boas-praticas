@@ -137,6 +137,7 @@ Ruim:
         cliente.clienteAtivo = true;
     };
 ```
+Bom:
 
 ```javascript
     let cliente = {
@@ -148,13 +149,6 @@ Ruim:
     function ativarCliente(cliente) {
         cliente.ativo = true;
     };
-```
-
-Bom:
-
-```javascript
-    const DEZ_MINUTOS_EM_MILISEGUNDOS = 600000;
-    setTimeout(faca_qualquer_coisa, DEZ_MINUTOS_EM_MILISEGUNDOS);
 ```
 
 ## Classes métodos e funções

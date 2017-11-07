@@ -585,7 +585,7 @@ Existem diversas formas de trabalhar com arrays, a idéia aqui é expor algumas 
 
 ### Filter
 
-Caso precise filtrar um array, prefira usar [filter](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/filtro) ao invés de ifs dentro de for.
+Caso precise filtrar um array, use [filter](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/filtro) ao invés de ifs dentro de for.
 
 Ruim:
 

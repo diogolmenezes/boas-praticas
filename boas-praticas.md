@@ -581,7 +581,7 @@ new StringQueGrita("Ola").toString();
 
 ## Arrays
 
-Existem diversas formas de trabalhar com arrays, a idéia aqui é expor algumas delas mas se possível, visite a [documentação]((https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array)) e conheça diversos outros recursos interessantes dos arrays.
+Existem diversas formas de trabalhar com arrays, a idéia aqui é expor algumas delas mas se possível, visite a [documentação](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array) e conheça diversos outros recursos interessantes dos arrays.
 
 ### Filter
 

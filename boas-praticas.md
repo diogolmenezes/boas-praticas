@@ -24,6 +24,7 @@ Usaremos como base a linguagem Javascript, mas tenha em mente que a maioria dos 
   - [Tipos de teste](#tipos-de-teste)
   - [Exemplo de teste unitário](#exemplo-de-teste-unitário)
 - [Log](#log)
+- [APIs](#apis)
 - [Consumo de serviços](#consumo-de-serviços)
 - [Docker](#docker)
 - [Leituras](#leituras)
@@ -580,7 +581,226 @@ new StringQueGrita("Ola").toString();
 
 ## Arrays
 
-TODO: escrever sobre arrays
+Existem diversas formas de trabalhar com arrays, a idéia aqui é expor algumas delas mas se possível, visite a [documentação]((https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array)) e conheça diversos outros recursos interessantes dos arrays.
+
+### Filter
+
+Caso precise filtrar um array, prefira usar [filter](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/filtro) ao invés de ifs dentro de for.
+
+Ruim:
+
+```javascript
+let terminais = ['21985665236', '21985652555', '2125706666'];
+
+let numerosMoveis = [];
+
+for (let i = 0; i < terminais.length; i++)
+    if (terminais[i].length == 11)
+        numerosMoveis.push(terminais[i]);
+
+console.log('Números móveis:', numerosMoveis);
+
+// Números móveis: [ '21985665236', '21985652555' ]
+```
+
+Bom:
+
+```javascript
+let terminais = ['21985665236', '21985652555', '2125706666'];
+
+let numerosMoveis = terminais.filter(terminal => terminal.length == 11);
+
+console.log('Números móveis:', numerosMoveis);
+
+// Números móveis: [ '21985665236', '21985652555' ]
+```
+
+### Find
+
+Use o [find](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/find) para recuperar um determinado item do array.
+
+```javascript
+let clientes = [{ nome: 'João' }, { nome: 'Diogo' }, { nome: 'Ana' }];
+
+let diogo = clientes.find(cliente => cliente.nome === 'Diogo');
+
+console.log(diogo);
+
+// { nome: 'Diogo' }
+```
+
+Você pode obter um resultado semelhante com o filter com a diferença de que o filter sempre retornará um array e o find retorna o próprio item encontrado. Caso não encontre nada, o filter retornará [] e o find undefined.
+
+```javascript
+let clientes = [{ nome: 'João' }, { nome: 'Diogo' }, { nome: 'Ana' }];
+
+console.log(clientes.filter(cliente => cliente.nome === 'Diogo'));
+// [ { nome: 'Diogo' } ]
+
+console.log(clientes.find(cliente => cliente.nome === 'Diogo'));
+// { nome: 'Diogo' }
+
+console.log(clientes.filter(cliente => cliente.nome === 'Fulano'));
+// []
+
+console.log(clientes.find(cliente => cliente.nome === 'Fulano'));
+// undefined
+```
+
+### Sort
+
+Use o [sort](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) caso queira ordenar um array.
+
+```javascript
+let nomes = ['Carlos', 'Diogo', 'André', 'Bruna'];
+let numeros = [10, 3, 80, 20, 2, 1];
+let clientes = [{ nome: 'João' }, { nome: 'Diogo' }, { nome: 'Ana' }];
+
+console.log(numeros.sort((primeiro, segundo) => primeiro - segundo));
+// [ 1, 2, 3, 10, 20, 80 ]
+
+console.log(nomes.sort());
+// [ 'André', 'Bruna', 'Carlos', 'Diogo' ]
+
+console.log(nomes.sort().reverse());
+// [ 'Diogo', 'Carlos', 'Bruna', 'André' ]
+
+console.log(clientes.sort((primeiro, segundo) => primeiro.nome > segundo.nome));
+// [ { nome: 'Ana' }, { nome: 'Diogo' }, { nome: 'João' } ]
+```
+
+### Map
+
+Utilize o map sempre que precisar aplicar uma função a cada item do array e obter um novo array como resultado.
+
+```javascript
+let tamanhosEmKb = [1500, 100, 450, 2048];
+
+// transformando em MegaBytes
+let tamanhosEmMb = tamanhosEmKb.map(tamanho => tamanho / 1024);
+
+// novo array
+console.log('Tamanhos em MB:', tamanhosEmMb);
+// [ 1.46484375, 0.09765625, 0.439453125, 2 ]
+
+// não altera o array original
+console.log('Tamanhos em KB:', tamanhosEmKb);
+// [ 1500, 100, 450, 2048 ]
+```
+
+Só temos que tomar cuidado com arrays de [objeto](https://developer.mozilla.org/pt-BR/docs/Glossario/objeto), pois por não serem tipos [primitivos](https://developer.mozilla.org/pt-BR/docs/Glossario/Primitivo) não são passados por valor para as funções. No caso de objetos o javascript passa por referência e isso faz com  que o objeto original seja alterado.
+
+```javascript
+let faturas = [{
+    mes: 'janeiro',
+    valor: 30.45,
+    paga: false
+}, {
+    mes: 'fevereiro',
+    valor: 20.10,
+    paga: false
+},
+{
+    mes: 'março',
+    valor: 60,
+    paga: false
+}];
+
+let faturasPagas = faturas.map(fatura => {
+    fatura.paga = true;
+    return fatura;
+});
+
+// novo array
+console.log('Faturas Pagas:', faturasPagas);
+// [ { mes: 'janeiro', valor: 30.45, paga: true },
+// { mes: 'fevereiro', valor: 20.1, paga: true },
+// { mes: 'março', valor: 60, paga: true } ]
+
+// MODIFICA o array original
+console.log('Faturas:', faturas);
+// [ { mes: 'janeiro', valor: 30.45, paga: true },
+// { mes: 'fevereiro', valor: 20.1, paga: true },
+// { mes: 'março', valor: 60, paga: true } ]
+```
+
+Para resolver esse problema, você precisaria clonar o objeto antes de alterar.
+
+```javascript
+let faturas = [{
+    mes: 'janeiro',
+    valor: 30.45,
+    paga: false
+}, {
+    mes: 'fevereiro',
+    valor: 20.10,
+    paga: false
+},
+{
+    mes: 'março',
+    valor: 60,
+    paga: false
+}];
+
+let faturasPagas = faturas.map(fatura => {
+    // clona o objeto antes de alterar para que a alteração não afete o array original
+    let copiaFatura = Object.assign({}, fatura);
+
+    copiaFatura.paga = true;
+    return copiaFatura;
+});
+
+// novo array
+console.log('Faturas Pagas:', faturasPagas);
+// [ { mes: 'janeiro', valor: 30.45, paga: true },
+// { mes: 'fevereiro', valor: 20.1, paga: true },
+// { mes: 'março', valor: 60, paga: true } ]
+
+// NAO modifica o array original
+console.log('Faturas:', faturas);
+// [ { mes: 'janeiro', valor: 30.45, paga: false },
+// { mes: 'fevereiro', valor: 20.1, paga: false },
+// { mes: 'março', valor: 60, paga: false } ]
+```
+
+### ForEach
+
+Use o [foreach](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach) para executar uma função para cada item do array.
+
+```javascript
+let clientes = [{ nome: 'Diogo', email: 'd@d.com' }, { nome: 'Maria', email: 'm@m.com' }];
+
+function enviarEmailBoasVindas(cliente) {
+    console.log(`Enviando email para ${cliente.nome} <${cliente.email}>`);
+};
+
+clientes.forEach(enviarEmailBoasVindas);
+
+// Enviando email para Diogo <d@d.com>
+// Enviando email para Maria <m@m.com>
+```
+
+### Reduce
+
+Para fazer somas ou reduzir um array, utilize o [reduce](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce). Essa função pode fazer coisas interessantes se usada com sabedoria, recomendo a leitura da [documentação](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce).
+
+```javascript
+let faturas = [{
+    mes: 'janeiro',
+    valor: 30.45
+}, {
+    mes: 'fevereiro',
+    valor: 20.10
+},
+{
+    mes: 'março',
+    valor: 60
+}];
+
+let total = faturas.reduce((resultado, fatura) => resultado + fatura.valor, 0);
+
+console.log('Total acumulado:', total); // 110.55
+```
 
 ## Promises e callbacks
 
@@ -1924,6 +2144,8 @@ O Docker sem dúvida revolucionou o nosso mercado. Reunimos aqui alguns que pode
 
 ## Leituras
 
+- [Documentação da Mozilla para o Javascript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
+- [Documentação do NodeJs](https://nodejs.org/en/docs/guides/)
 - [Codigo Limpo - Robert Cecil Martin](https://www.amazon.com.br/C%C3%B3digo-Limpo-Habilidades-Pr%C3%A1ticas-Software/dp/8576082675)
 - [Clean Code Javascript](https://github.com/ryanmcdermott/clean-code-javascript/blob/master/README.md#introduction)
 - [Boas práticas para projetos em Node.JS](http://vizir.com.br/2016/06/boas-praticas-para-projetos-em-node-js/)

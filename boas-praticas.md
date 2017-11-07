@@ -27,6 +27,7 @@ Usaremos como base a linguagem Javascript, mas tenha em mente que a maioria dos 
 - [APIs](#apis)
 - [Consumo de serviços](#consumo-de-serviços)
 - [Docker](#docker)
+- [Garbage Colector e Memory Leaks](#garbage-colector-e-memory=leaks)
 - [Leituras](#leituras)
 
 ## Introdução
@@ -1015,7 +1016,7 @@ class Fatura {
 
 ## Closures
 
-TODO: escrever o modulo de clusures e cuidados com o this e bind
+TODO: escrever o modulo de clusures e cuidados com o this, bind e memory leak
 
 ## Arquivo Readme
 
@@ -2142,11 +2143,52 @@ O Docker sem dúvida revolucionou o nosso mercado. Reunimos aqui alguns que pode
 
 - [Elastic em container](https://github.com/diogolmenezes/estudos-elk) alguns exemplos de criação de container de elastic search. Você ver algusn exemplos do docker-compose por aqui.
 
+## Garbage Colector e Memory Leaks
+
+Por padrão a engine [V8](https://developers.google.com/v8/) do nodeJs 64-bit configura o limite do [garbage collector](https://blog.risingstack.com/node-js-at-scale-node-js-garbage-collection/) para +- [1,4GB](https://github.com/nodejs/node/wiki/Frequently-Asked-Questions). Isso significa que o motor só tentará limpar os itens não utilizados da memória caso ela chegue nesse limite de 1400MB.
+
+Esse comportamento pode gerar muitos [problemas](https://github.com/nodejs/node/issues/3370#issuecomment-148108323), felizmente podemos enviar flags para o node e ter mais controle sobre as execuções do GC.
+
+Para ver essas opções
+
+```bash
+node --v8-options
+```
+
+De acordo com diversas [fontes](https://devcenter.heroku.com/articles/node-best-practices#avoid-garbage), basicamente, para trabalharmos com esse problema, vamos usar 3 flags:
+
+- optimize_for_size - Permite otimizações que favorecem o tamanho da memória sobre a velocidade de execução
+- max_old_space_size - Tamanho maximo em MB da area de objetos antigos na memoria
+- gc_interval - Roda o garbage colector a cada X alocações
+
+```bash
+node --optimize_for_size --max_old_space_size=920 --gc_interval=100 app.js
+```
+
+Isso se torna ainda mais importante caso você tenha um sistema que [rode em um ambiente com menos de 1,5GB disponível](http://fiznool.com/blog/2016/10/01/running-a-node-dot-js-app-in-a-low-memory-environment/).
+
+Por exemplo, para um ambiente com 512Mb de memória, seria interessante termos a seguinte configuração:
+
+```bash
+node --optimize_for_size --max_old_space_size=460 --gc_interval=100 app.js
+```
+
+A outra possibilidade é dispor 2Gb de memória para a aplicação e deixar que o V8 faça o trabalho da maneira padrão.
+
+Algumas leituras sobre memory leak:
+
+- [https://www.toptal.com/nodejs/debugging-memory-leaks-node-js-applications](https://www.toptal.com/nodejs/debugging-memory-leaks-node-js-applications)
+- [https://www.alexkras.com/simple-guide-to-finding-a-javascript-memory-leak-in-node-js/](https://www.alexkras.com/simple-guide-to-finding-a-javascript-memory-leak-in-node-js/)
+- [https://blog.risingstack.com/finding-a-memory-leak-in-node-js/](https://blog.risingstack.com/finding-a-memory-leak-in-node-js/)
+- [https://www.nearform.com/blog/self-detect-memory-leak-node/](https://www.nearform.com/blog/self-detect-memory-leak-node/)
+
 ## Leituras
 
 - [Documentação da Mozilla para o Javascript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
 - [Documentação do NodeJs](https://nodejs.org/en/docs/guides/)
+- [Google Js Best Pratices](https://google.github.io/styleguide/javascriptguide.xml)
 - [Codigo Limpo - Robert Cecil Martin](https://www.amazon.com.br/C%C3%B3digo-Limpo-Habilidades-Pr%C3%A1ticas-Software/dp/8576082675)
 - [Clean Code Javascript](https://github.com/ryanmcdermott/clean-code-javascript/blob/master/README.md#introduction)
 - [Boas práticas para projetos em Node.JS](http://vizir.com.br/2016/06/boas-praticas-para-projetos-em-node-js/)
 - [Arrays](https://medium.com/vizir-software-studio/no-javascript-o-array-pode-ser-seu-amigo-abe46c262147)
+- [Bets Pratices for node rest apis](https://blog.risingstack.com/10-best-practices-for-writing-node-js-rest-apis/)

@@ -27,7 +27,7 @@ Usaremos como base a linguagem Javascript, mas tenha em mente que a maioria dos 
 - [APIs](#apis)
 - [Consumo de serviços](#consumo-de-serviços)
 - [Docker](#docker)
-- [Garbage Colector e Memory Leaks](#garbage-colector-e-memory#leaks)
+- [Garbage Colector e Memory Leaks](#garbage-colector-e-memory-leaks)
 - [Leituras](#leituras)
 
 ## Introdução

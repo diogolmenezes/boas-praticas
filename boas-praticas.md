@@ -850,9 +850,9 @@ console.log('Total acumulado:', total); // 110.55
 
 ## Promises e callbacks
 
-Callbacks não são tão claros de ler, por isso, sempre prefira usar [promises](https://javascript.info/async).
+Callbacks não são tão claros de ler, por isso, prefira usar [promises](https://javascript.info/async).
 
-O [encadeamendo](https://javascript.info/promise-chaining) das promisses além de nos afastar do **calback hell**, facilita a leitura e o entendimento do código.
+O formato das promisses além de nos afastar do **calback hell**, facilita a leitura e o entendimento do código.
 
 ```javascript
 boasVindas(nome) {
@@ -866,7 +866,7 @@ boasVindas().
     then(console.log);
 ```
 
-E você pode encadear o retorno das promisses, passando o resultado sempre adiante.
+E você pode [encadear](https://javascript.info/promise-chaining) o retorno passando o resultado sempre adiante.
 
 ```javascript
 function processarContasVencidas(cpf)
@@ -898,6 +898,8 @@ function enviarEmailDeCobranca(cliente) {
 ```
 
 Se você precisar promissificar uma classe que já exista mas está feita com com callbacks, é possivel usar o método [promisifyAll](http://bluebirdjs.com/docs/api/promise.promisify.html) do [bluebird](http://bluebirdjs.com).
+
+Repare como a legibilidade aumenta quando paramos de usar callbacks e usamos promises.
 
 Ruim:
 
@@ -962,25 +964,11 @@ Não ignore os erros os impactos dessa ação podem ser enormes para o negócio.
 Péssimo
 
 ```javascript
-try {
-    enviarSms();
-} catch(){}
-```
-
-```javascript
 enviarSms()
     .then(() => { ... });
 ```
 
 Ruim:
-
-```javascript
-try {
-    enviarSms();
-} catch(erro){
-    console.log(erro);
-}
-```
 
 ```javascript
 enviarSms()
@@ -991,16 +979,6 @@ enviarSms()
 Bom:
 
 Sempre logue os erros e se possível tome alguma ação para que esse erro seja analisado, resolvido ou contornado.
-
-```javascript
-try {
-    enviarSms();
-} catch(erro){
-    console.error(erro);
-    logger.logarErro(erro);
-    notificarAdministrador(erro);
-}
-```
 
 ```javascript
 enviarSms()

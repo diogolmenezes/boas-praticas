@@ -200,6 +200,94 @@ Bom:
     };
 ```
 
+### Let e Const
+
+Sempre use [const](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Statements/const) ou [let](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Statements/let), evite usar var.
+
+Ruim
+
+```javascript
+conta = new Conta();
+
+var status_criado = 3;
+```
+
+```javascript
+let conta = new Conta();
+
+const STATUS_CRIADO = 3;
+```
+
+### Evite agrupar declarações com let e const
+
+É mais facil incluir outras variáveis quando você as mantem separadas.
+
+Ruim:
+
+```javascript
+const A = 1,
+    B = 2,
+    C = 3;
+```
+
+Bom:
+
+```javascript
+const A = 1;
+const B = 2;
+const C = 3;
+```
+
+### Não encadeie atribuições de variáveis
+
+Isso pode criar variaveis globais acidentalmente.
+
+Ruim:
+
+```javascript
+let a = b = c = 1;
+```
+
+Bom:
+
+```javascript
+let a = 1;
+let b = a;
+let c = a;
+```
+
+### Prefira === e !== a == e !=
+
+Os [operadores === e !== são type-safe](https://eslint.org/docs/rules/eqeqeq.html) e podem evitar comportamentos inesperados.
+
+Ruim
+
+```javascript
+a == b
+foo == true
+bananas != 1
+value == undefined
+typeof foo == 'undefined'
+'hello' != 'world'
+0 == 0
+true == true
+foo == null
+```
+
+Bom:
+
+```javascript
+a === b
+foo === true
+bananas !== 1
+value === undefined
+typeof foo === 'undefined'
+'hello' !== 'world'
+0 === 0
+true === true
+foo === null
+```
+
 ## Classes métodos e funções
 
 ### Classes, metodos e funcões devem fazer apenas uma coisa (Single Responsability Principle)
@@ -516,6 +604,72 @@ if(temEmail)
     mandarEmail();
 else
     mandarSms();
+```
+
+### Evites elses desnecessários
+
+Se um bloco If sempre executa um return o bloco else torna-se desnecessário.
+
+Ruim:
+
+```javascript
+function foo() {
+  if (x) {
+    return x;
+  } else {
+    return y;
+  }
+}
+
+function cats() {
+  if (x) {
+    return x;
+  } else if (y) {
+    return y;
+  }
+}
+
+function dogs() {
+  if (x) {
+    return x;
+  } else {
+    if (y) {
+      return y;
+    }
+  }
+}
+```
+
+Bom:
+
+```javascript
+function foo() {
+  if (x) {
+    return x;
+  }
+
+  return y;
+}
+
+function cats() {
+  if (x) {
+    return x;
+  }
+
+  if (y) {
+    return y;
+  }
+}
+
+function dogs(x) {
+  if (x) {
+    if (z) {
+      return y;
+    }
+  } else {
+    return z;
+  }
+}
 ```
 
 ### Efeitos Colaterais - Evite alterar variáveis de fora do escopo

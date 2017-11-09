@@ -8,6 +8,7 @@ Usaremos como base a linguagem Javascript, mas tenha em mente que a maioria dos 
 
 - [Introdução](#introdução)
 - [Codigo Limpo](#codigo-limpo)
+  - [Tipos primitivos e tipos complexos](#tipos-primitivos-e-tipos-complexos)
   - [Variáveis](#variaveis)
   - [Classes métodos e funções](#classes-métodos-e-funções)
   - [Arrays](#arrays)
@@ -15,7 +16,6 @@ Usaremos como base a linguagem Javascript, mas tenha em mente que a maioria dos 
   - [Erros](#erros)
   - [Codigo Morto](#código-morto)
   - [Definiçao de classes e ES6](#definição-de-classes-e-es6)
-  - [Closures](#closures)
   - [Arquivo Readme](#arquivo-readme)
   - [Estrutura de diretórios](#estrutura-de-diretorios)
   - [Scripts NPM](#scripts-npm)
@@ -23,6 +23,7 @@ Usaremos como base a linguagem Javascript, mas tenha em mente que a maioria dos 
   - [Frameworks](#frameworks)
   - [Tipos de teste](#tipos-de-teste)
   - [Exemplo de teste unitário](#exemplo-de-teste-unitário)
+  - [Exemplo de teste integrado](#exemplo-de-teste-integrado)
 - [Log](#log)
 - [APIs](#apis)
 - [Consumo de serviços](#consumo-de-serviços)
@@ -38,9 +39,52 @@ As recomendações desse guia, são testadas e largamente utilizadas pela comuni
 
 A aplicação dessas práticas irá melhorar a qualidade do código criado pelo digital e garantirá que tenhamos um padrão de desenvolvimento que facilitará o intercâmbio de conhecimento entre os times.
 
-## Codigo Limpo
+## Codigo
 
-Nessa sessão daremos algumas recomendações de escrita de código que facilitarão o entendimento do código.
+## Tipos primitivos e tipos complexos
+
+É importante entendermos que o javascript divide seus tipos em 2 grupos ( primitivos e complexos ) e que a manipulação dos dados é um pouco diferente em cada um desses grupos.
+
+Os tipos primitivos são:
+
+- string
+- number
+- boolean
+- null
+- undefined
+- symbol
+
+Quando você acessa um tipo primitivo, sempre estará trabalhando direto em seu valor.
+
+```javascript
+const nome = 'Diogo';
+const outroNome = nome;
+
+outroNome = 'João';
+
+console.log(nome); // Diogo
+console.log(outroNome); // João
+```
+
+Os tipos complexos são:
+
+- object
+- array
+- function
+
+Nos tipos complexos você sempre estará trabalhando com a referência, isso significa que se replicarmos o exemplo anterior utilizando objetos, após trocar o nome, o objeto original também será alterado.
+
+```javascript
+const pessoa = { nome: 'Diogo' };
+const outraPessoa = pessoa;
+
+outraPessoa.nome = 'João'
+
+console.log(pessoa); // { nome: 'João' }
+console.log(outraPessoa); // { nome: 'João' }
+```
+
+Devemos tomar cuidado com isso, pois essa caracteristica pode gerar [comportamentos indesejados](#efeitos-colaterais-\--clone-objetos-como-argumentos).
 
 ## Variaveis
 
@@ -139,6 +183,7 @@ Ruim:
         cliente.clienteAtivo = true;
     };
 ```
+
 Bom:
 
 ```javascript
@@ -805,24 +850,54 @@ console.log('Total acumulado:', total); // 110.55
 
 ## Promises e callbacks
 
-Callbacks não são tão claros de ler, por isso, prefira usar promises sempre.
+Callbacks não são tão claros de ler, por isso, sempre prefira usar [promises](https://javascript.info/async).
 
-Você pode criar seu método retornando uma promise:
+O [encadeamendo](https://javascript.info/promise-chaining) das promisses além de nos afastar do **calback hell**, facilita a leitura e o entendimento do código.
 
 ```javascript
 boasVindas(nome) {
     return new Promise((resolve, reject) => {
-        resove(`Olá ${nome}`);
+        resolve(`Olá ${nome}`);
     });
 };
+
 
 boasVindas().
     then(console.log);
 ```
 
-Ou usar o [promisifyAll](http://bluebirdjs.com/docs/api/promise.promisify.html) do [bluebird](http://bluebirdjs.com).
+E você pode encadear o retorno das promisses, passando o resultado sempre adiante.
 
-O importante é que você SEMPRE prefira usar promises.
+```javascript
+function processarContasVencidas(cpf)
+{
+    carregarCliente(cpf)
+        .then(possuiContasVencidas)
+        .then(enviarEmailDeCobranca)
+        .catch(console.error);
+}
+
+function carregarCliente(cpf) {
+    return new Promise((resolve, reject) => {
+        // ...
+        resolve(cliente);
+    });
+};
+
+function possuiContasVencidas(cliente) {
+    return new Promise((resolve, reject) => {
+        // ...
+        resolve(cliente);
+    });
+};
+
+function enviarEmailDeCobranca(cliente) {
+    // ...
+    return servicoDeEnvioDeEmail.enviar(mensagem);
+};
+```
+
+Se você precisar promissificar uma classe que já exista mas está feita com com callbacks, é possivel usar o método [promisifyAll](http://bluebirdjs.com/docs/api/promise.promisify.html) do [bluebird](http://bluebirdjs.com).
 
 Ruim:
 
@@ -1014,13 +1089,10 @@ class Fatura {
 };
 ```
 
-## Closures
-
-TODO: escrever o modulo de clusures e cuidados com o this, bind e memory leak
-
 ## Arquivo Readme
 
-Devemos dedicar tempo ao arquivo readme colocano nele informações para ajudar o time com tarefas relacionadas ao projeto.
+
+Devemos dedicar tempo ao arquivo readme colocano nele informações para ;ajudar o time com tarefas relacionadas ao projeto.
 
 Em primeiro lugar procure sempre colocar uma descrição breve e clara dos objetivos do projeto:
 
@@ -2184,6 +2256,7 @@ Algumas leituras sobre memory leak:
 
 ## Leituras
 
+- [The Modern JavaScript Tutorial](https://javascript.info/)
 - [Documentação da Mozilla para o Javascript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
 - [Documentação do NodeJs](https://nodejs.org/en/docs/guides/)
 - [Google Js Best Pratices](https://google.github.io/styleguide/javascriptguide.xml)

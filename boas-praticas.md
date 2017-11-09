@@ -2349,9 +2349,9 @@ Para a IDE, sugerimos a utilização do VsCode pois além de rápido tem um bom 
 
 Vou disponibilizar aqui os arquivos de configuração que eu utilizo para quem quiser deixar igual.
 
-- [.vscode/launch.json](http://) - Esse arquivo mora dentro da pasta .vscode do seu projeto e serve para informar configuraçoes de debug da aplicação. Eu gosto de definir o environment direto nesse arquivo quando vou debugar a aplicação, dessa forma não é necessario ficar copiando arquivos para apontar a aplicação para um ambiente específico.
+- [.vscode/launch.json](https://github.com/diogolmenezes/boas-praticas/blob/master/configuracoes/vscode/launch.json) - Esse arquivo mora dentro da pasta .vscode do seu projeto e serve para informar configuraçoes de debug da aplicação. Eu gosto de definir o environment direto nesse arquivo quando vou debugar a aplicação, dessa forma não é necessario ficar copiando arquivos para apontar a aplicação para um ambiente específico.
 
-- [User Settings](http://) - Nesse arquivo estão minhas preferencias pessoais de identação, save, pastas excluidas da pesquisa etc.
+- [User Settings](https://github.com/diogolmenezes/boas-praticas/blob/master/configuracoes/vscode/userSettings.json) - Nesse arquivo estão minhas preferencias pessoais de identação, save, pastas excluidas da pesquisa etc.
 
 ## Leituras
 

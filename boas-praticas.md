@@ -12,6 +12,7 @@ Usaremos como base a linguagem Javascript, mas tenha em mente que a maioria dos 
   - [Variáveis](#variaveis)
   - [Classes métodos e funções](#classes-métodos-e-funções)
   - [Arrays](#arrays)
+  - [Strings](#strings)
   - [Promises e callbacks](#promises-e-callbacks)
   - [Erros](#erros)
   - [Codigo Morto](#código-morto)
@@ -847,6 +848,66 @@ let total = faturas.reduce((resultado, fatura) => resultado + fatura.valor, 0);
 
 console.log('Total acumulado:', total); // 110.55
 ```
+## Strings
+
+### Aspas
+
+Prefira o uso de aspas simples.
+
+Ruim
+
+```javascript
+const nome = "Diogo";
+```
+
+Bom
+
+```javascript
+const nome = 'Diogo';
+```
+
+### Multiplas linhas
+
+Evite escrever strings em multiplas linhas, quebrar strings torna o código menos buscavel.
+
+Ruim
+
+```javascript
+const observacao = 'Lorem ipsum dolor sit amet, consectetur \ adipiscing elit. Aliquam ullamcorper metus ac tortor mattis, \ eget sagittis diam imperdiet. Morbi ac bibendum libero. In \ at felis augue. Maecenas id euismod augue, at. Vestibulum \ dapibus nunc placerat hendrerit tempus.';
+
+const observacao = 'Lorem ipsum dolor sit amet, consectetur ' +
+'adipiscing elit. Aliquam ullamcorper metus ac tortor mattis ' +
+'eget sagittis diam imperdiet. Morbi ac bibendum libero. In ' +
+'at felis augue. Maecenas id euismod augue, at. Vestibulum ' +
+'dapibus nunc placerat hendrerit tempus.';
+```
+
+Bom
+
+```javascript
+const observacao = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ullamcorper metus ac tortor mattis, eget sagittis diam imperdiet. Morbi ac bibendum libero. In at felis augue. Maecenas id euismod augue, at sollicitudin diam. Vestibulum dapibus nunc placerat hendrerit tempus.';
+```
+
+### Concatenação
+
+Para concatenar prefira usar [template strings](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/template_strings).
+
+Ruim
+
+```javascript
+function Ola(nome) {
+    console.log('Ola' + nome);
+}
+```
+
+Bom
+
+```javascript
+function Ola(nome) {
+    console.log(`Ola ${nome}`);
+}
+```
+
 
 ## Promises e callbacks
 
@@ -1028,7 +1089,7 @@ function exibirAlerta(texto) {
 
 ## Definição de classes e ES6
 
-Dê preferência ao modelo ES6.
+Dê preferência ao modelo ES6 por ser mais conciso e facil de entender.
 
 - [Medium guia ES6](https://medium.com/@matheusml/o-guia-do-es6-tudo-que-voc%C3%AA-precisa-saber-8c287876325f)
 - [https://github.com/lukehoban/es6features](https://github.com/lukehoban/es6features)
@@ -1065,6 +1126,56 @@ class Fatura {
         // ...
     };
 };
+```
+
+### Aproveite o recurso de herança
+
+Utilize [extends](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Classes/extends) para extender classes.
+
+```javascript
+class Cachorro {
+    constructor() {
+        console.log('Sou um cachorro!');
+    }
+
+    latir() {
+        console.log('Au au au au');
+    }
+
+    abanarRabo() {
+        console.log('flap flap flap!');
+    }
+}
+
+class CachorroRouco extends Cachorro {
+    constructor() {
+        super();
+        console.log('mas sou rouco :(');
+    }
+
+    latir() {
+        console.log('A.... A... ...');
+    }
+}
+
+let cachorro = new Cachorro();
+
+cachorro.latir();
+cachorro.abanarRabo();
+
+// Sou um cachorro!
+// Au au au au
+// flap flap flap!
+
+let cachorroRouco = new CachorroRouco();
+
+cachorroRouco.latir();
+cachorroRouco.abanarRabo();
+
+// Sou um cachorro!
+// mas sou rouco :(
+// A.... A... ...
+// flap flap flap!
 ```
 
 ## Arquivo Readme

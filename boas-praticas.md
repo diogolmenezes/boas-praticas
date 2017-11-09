@@ -30,6 +30,7 @@ Usaremos como base a linguagem Javascript, mas tenha em mente que a maioria dos 
 - [Consumo de serviços](#consumo-de-serviços)
 - [Docker](#docker)
 - [Garbage Colector e Memory Leaks](#garbage-colector-e-memory-leaks)
+- [IDE](#ide)
 - [Leituras](#leituras)
 
 ## Introdução
@@ -1131,7 +1132,6 @@ class Fatura {
 ### Aproveite o recurso de herança
 
 Utilize [extends](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Classes/extends) para extender classes.
-
 ```javascript
 class Cachorro {
     constructor() {
@@ -2342,6 +2342,16 @@ Algumas leituras sobre memory leak:
 - [https://www.alexkras.com/simple-guide-to-finding-a-javascript-memory-leak-in-node-js/](https://www.alexkras.com/simple-guide-to-finding-a-javascript-memory-leak-in-node-js/)
 - [https://blog.risingstack.com/finding-a-memory-leak-in-node-js/](https://blog.risingstack.com/finding-a-memory-leak-in-node-js/)
 - [https://www.nearform.com/blog/self-detect-memory-leak-node/](https://www.nearform.com/blog/self-detect-memory-leak-node/)
+
+## IDE
+
+Para a IDE, sugerimos a utilização do VsCode pois além de rápido tem um bom suporte ao git e uma boa estrutura para debug.
+
+Vou disponibilizar aqui os arquivos de configuração que eu utilizo para quem quiser deixar igual.
+
+- [.vscode/launch.json](http://) - Esse arquivo mora dentro da pasta .vscode do seu projeto e serve para informar configuraçoes de debug da aplicação. Eu gosto de definir o environment direto nesse arquivo quando vou debugar a aplicação, dessa forma não é necessario ficar copiando arquivos para apontar a aplicação para um ambiente específico.
+
+- [User Settings](http://) - Nesse arquivo estão minhas preferencias pessoais de identação, save, pastas excluidas da pesquisa etc.
 
 ## Leituras
 

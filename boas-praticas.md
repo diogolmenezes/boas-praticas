@@ -1374,7 +1374,8 @@ Por isso, criamos um esqueleto de aplicação para o backend e para o frontend q
 
 A evolução desse projeto depende de todos nós, por isso caso você encontre um problema ou tenha alguma sugestão, procure o desenvolvedor responsavel pelas aplicações cross e converse sobre o seu cenário para que sua melhoria possa ser analisada e aplicada.
 
-TODO: link para o gerador de projetos
+- [Gerador de projetos backend](http://dadhx01.interno/oidigital/framework-digital)
+- [Bootstrap de um projeto frontend](http://dadhx01.interno/oidigital/framework-react-oi)
 
 ## Scripts NPM
 
@@ -2443,7 +2444,78 @@ Todo esse universo é bem legal mas de nada adianta se não temos logs de qualid
 
 Nesse módulo falaremos sobre algumas boas praticas para tornar essa tarefa mais fácil.
 
-TODO: terminar o modulo de logs
+## APIs
+
+Passamos grande parte dos nossos dias construindo ou consumindo APIs, essa tarefa pode ser mais fácil se respeitarmos [algumas boas praticas](https://blog.risingstack.com/10-best-practices-for-writing-node-js-rest-apis/).
+
+Seguem algumas leituras interessantes sobre o assunto:
+
+- https://blog.risingstack.com/10-best-practices-for-writing-node-js-rest-apis/
+
+
+### Use os métodos HTTP em conjunto com as rotas
+
+A informação sobre oque uma rota faz pode ser muito mais clara se combinarmos ela com o verbo HTTP correto.
+
+- POST /cliente ou PUT /cliente:/id para criar um novo cliente
+- GET /cliente para obter uma lista de clientes,
+- GET /cliente/:id para obter um cliente específico,
+- PATCH /cliente/:id para alterar um cliente,
+- DELETE /cliente/:id para remover a cliente.
+
+### Use corretamente os códigos de retorno HTTP
+
+Existem [vários tipos de código HTTP](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes) que podem indicar claramente as diversas situações que ocorrem em nossas APIs.
+
+- 2xx, para situações de sucesso,
+- 3xx, caso o recurso tenha sido movido de lugar,
+- 4xx, se o request não tenha sido realizado por um erro do cliente (como por exemplo não enviar um campo obrigatório),
+- 5xx, caso algo tenha dado errado dentro da API.
+
+Ruim:
+
+```javascript
+res.status(200).json({ erro: 'Campos obrigatórios não preenchidos' });
+
+res.status(200).json({ erro: 'Login ou senha inválidos' });
+```
+
+Bom:
+
+```javascript
+res.status(400).json({ mensagem: 'Campos obrigatórios não preenchidos' });
+
+res.status(403).json({ mensagem: 'Login ou senha inválidos' });
+```
+
+### Use os headers HTTP para enviar metadados
+
+Para incluir metadados sobre o payload que você está enviando, use os [headers](https://en.wikipedia.org/wiki/List_of_HTTP_header_fields).
+
+- paginação
+- rate limit
+- autenticação
+- origem da requisição
+
+É uma boa pratica iniciar os campos enviados no header com um x.
+
+```javascript
+post(URI, {
+    headers: { "x-origem": 'SITE_MOVEL' }
+})
+```
+
+### Autenticações com JWT
+
+TODO: escrever
+
+### Rate Limit
+
+TODO: escrever
+
+### Documentação
+
+TODO: escrever
 
 ## Consumo de serviços
 

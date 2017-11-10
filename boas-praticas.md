@@ -1359,9 +1359,12 @@ Depois dessas informaçõe básicas você pode usar o Readme para ensinar a inst
 
 O importante é que seu readme não seja um arquivo sem propósito. Use ele para ajudar as pessoas que podem precisar do seu projeto.
 
+- [Exemplo de README do projeto cadastro](https://github.com/diogolmenezes/boas-praticas/blob/master/configuracoes/README.md)
+
+
 Esse [repositório](https://github.com/matiassingers/awesome-readme) tem alguns exemplos de arquivos de readme bem escritos.
 
-TODO: link para algum readme do digital
+
 
 ## Estrutura de diretórios
 

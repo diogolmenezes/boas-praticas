@@ -57,6 +57,24 @@ Backend da aplicação responsável pelo Cadastro / Reset de senha da minha oi e
 - abc08.interno:27017/minhaoi
 - abc09.interno:27017/minhaoi
 
+## Kibana
+
+### Homologação
+
+- http://ghf01.interno:5601/app/kibana
+
+Indice cadastro-hml*
+
+### Produção
+
+- http://ghf01.interno:5601/app/kibana
+
+Indice cadastro-prd*
+
+## Grafana
+
+- http://kjh01.interno:3000/dashboard/db/cadastro-containers
+
 ## Postman
 
 Arquivo de requests do Postman com todas as chamadas do projeto.

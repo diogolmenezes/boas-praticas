@@ -57,6 +57,11 @@ Backend da aplicação responsável pelo Cadastro / Reset de senha da minha oi e
 - abc08.interno:27017/minhaoi
 - abc09.interno:27017/minhaoi
 
+## Jenkins
+
+- http://uio01.interno/job/PreCadastro/job/cadastro_backend/
+- http://uio01.interno/job/PreCadastro/job/RepositorioCadastro/job/Backend/
+
 ## Kibana
 
 ### Homologação

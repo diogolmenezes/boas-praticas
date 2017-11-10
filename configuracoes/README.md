@@ -59,8 +59,9 @@ Backend da aplicação responsável pelo Cadastro / Reset de senha da minha oi e
 
 ## Jenkins
 
-- http://uio01.interno/job/PreCadastro/job/cadastro_backend/
-- http://uio01.interno/job/PreCadastro/job/RepositorioCadastro/job/Backend/
+- [Deploy da Master](http://uio01.interno/job/PreCadastro/job/cadastro_backend/)
+- [Deploy de releases](http://uio01.interno/job/PreCadastro/job/RepositorioCadastro/job/Backend/)
+- [Restart da aplicação](http://uio01.interno/job/PreCadastro/job/restart_precadastro_backend/)
 
 ## Kibana
 

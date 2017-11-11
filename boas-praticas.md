@@ -59,8 +59,8 @@ Os tipos primitivos são:
 Quando você acessa um tipo primitivo, sempre estará trabalhando direto em seu valor.
 
 ```javascript
-const nome = 'Diogo';
-const outroNome = nome;
+var nome = 'Diogo';
+var outroNome = nome;
 
 outroNome = 'João';
 
@@ -140,17 +140,21 @@ Ruim:
     setTimeout(faca_qualquer_coisa, 600000);
 ```
 
-```javascript
-    if(cliente.tipoPlano = 'PRE' && cliente.produtos.length > 0)
-        migrar();
-```
-
 Bom:
 
 ```javascript
     const DEZ_MINUTOS_EM_MILISEGUNDOS = 600000;
     setTimeout(faca_qualquer_coisa, DEZ_MINUTOS_EM_MILISEGUNDOS);
 ```
+
+Ruim:
+
+```javascript
+    if(cliente.tipoPlano = 'PRE' && cliente.produtos.length > 0)
+        migrar();
+```
+
+Bom:
 
 ```javascript
     let jaPodeMigrar = cliente.tipoPlano = 'PRE' && cliente.produtos.length > 0;
@@ -1175,7 +1179,7 @@ async pegarArquivo()
 
 ### Não ignore os erros
 
-Não ignore os erros os impactos dessa ação podem ser enormes para o negócio.
+Não ignore os erros os impactos podem ser enormes para o negócio.
 
 Péssimo
 

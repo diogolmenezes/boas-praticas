@@ -14,6 +14,7 @@ Backend da aplicação responsável pelo Cadastro / Reset de senha da minha oi e
 - `npm run start:mock`: inicia o servidor mock.
 
 ## Rodando os testes
+
 - `npm test`: roda os testes unitários com os relatorios do nyc
 - `npm run test-dev`: roda os testes unitários sem o nyc
 - `npm run test-debug`: roda os testes unitários com debugger ativo

@@ -35,9 +35,9 @@ Usaremos como base a linguagem Javascript, mas tenha em mente que a maioria dos 
 
 ## Introdução
 
-Esse guia não é apenas um style guide, falaremos sobre boas práticas de programação e padrões de projeto e código que devem ser utilizados pelas equipes de desenvolvimento de software da Oi, afim de garantirmos excelência.
+Esse guia não é apenas um style guide, falaremos sobre boas práticas de programação e padrões que devem ser utilizados pelas equipes de desenvolvimento de software da Oi.
 
-As recomendações desse guia, são testadas e largamente utilizadas pela comunidade de desenvolvimento de software. Usaremos como base a linguagem Javascript, mas tenha em mente que a maioria dos conceitos encontrados aqui podem ser aplicados em qualquer linguagem.
+As recomendações desse guia, são testadas e largamente utilizadas pela comunidade de desenvolvimento de software. Usaremos como base a linguagem Javascript, mas tenha em mente que a **maioria dos conceitos** encontrados aqui podem ser aplicados em qualquer linguagem.
 
 A aplicação dessas práticas irá melhorar a qualidade do código criado pelo digital e garantirá que tenhamos um padrão de desenvolvimento que facilitará o intercâmbio de conhecimento entre os times.
 

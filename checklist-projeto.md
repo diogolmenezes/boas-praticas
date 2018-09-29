@@ -16,11 +16,11 @@
 - [ ] Tem credencial propria para o cache
 - [ ] Utiliza de Fila
 - [ ] Tem credencial propria para a fila
-- [ ] Utiliza o Sonar
-- [ ] Os logs estão detalhados e todos possuem identificadores como cpfs e terminal
+- [ ] Os logs estão detalhados e todos possuem identificadores como cpf e terminal
 - [ ] Os Dashboards e visualizações no Kibana estão criados e são informativos
 - [ ] Possui boa cobertura de testes unitários
 - [ ] Possui boa cobertura de testes integrados
+- [ ] Esta configurada na estrutura do SONAR
 - [ ] Possui Loadbalancer e DNS configurado para o frontend
 - [ ] Possui Loadbalancer e DNS configurado para o backend
 - [ ] As Rotas de proxy reverso foram configuradas

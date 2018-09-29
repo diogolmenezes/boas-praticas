@@ -11,6 +11,27 @@ Utilize como referência e complemente caso alguma nova informação seja necess
     - [Backend - Bootstrap Minha Oi](#backend-bootstrap-minha-oi)
     - [Frontend]
 - [Solicitação de maquinas](#solicitação-de-maquinas)
+- [Firewall](#firewall)
+- [Criação de FileSystem](#criação-de-fileSystem)
+- [Criação de Pipeline](#criação-de-pipeline)
+- [Criação de banco de dados](#criação-de-banco-de-dados)
+- [Redis - Cache](#redis-cache)
+- [Configuração do Sonar](#configuração-do-sonar)
+- [Load Balancer e DNS](#load-balancer-e-dns)
+- [Proxy reverso](#proxy-reverso)
+- [Documentos e Desenhos](#documentos-e-esenhos)
+- [Manual de operação - MOP](#manual-de-operação-mop)
+- [Teste de Segurança](#teste-de-egurança)
+- [Teste de performance](#teste-de-performance)
+- [Logs e Kibana](#logs-e-kibana)
+- [Massa de teste](#massa-de-teste)
+- [Auditoria](#auditoria)
+- [Tagueamento e Data Layer](#tagueamento-e-data-layer)
+- [Rollout](#rollout)
+- [Butler](#butler)
+- [Envio de e-mail](#envio-de-e-mail)
+- [Envio de Tokens](#envio-de-tokens)
+- [Fila](#fila)
 
 
 ## Criando uma nova aplicação

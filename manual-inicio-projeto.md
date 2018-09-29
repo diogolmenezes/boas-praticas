@@ -157,11 +157,24 @@ Todas os projetos e funcionalidades novos devem ser analisados e liberados pela 
 
 Para solicitar uma avaliação, procure a equipe de segurança, eles irão pedir para que você defina em um documento os pondos que devem ser testados.
 
-## Kibana
+## Logs e Kibana
 
 O digital tem sua propria estrutura de Kibana em http://XYZ.
 
 Caso você queira colocar sua aplicação nessa estrutura, será necessário comunicar o setor XYZ para que a analise de espaço em disco seja realizada.
+
+Toda aplicação precisa de dashboards e visualizações que consigam representar o momento da aplicação em relação a metas de negocio e em relação aos erros ocorridos.
+
+Para que você consiga ter um otimo dashboard e capacidade de rastreamento de erros, é necessário que a aplicação tenha uma otima cobertuda de logs. O framework provê ferramentas para que essa tarefa fique mais facil.
+
+Sempre que um log for escrito pense em colocar dados que possam identificar a transação com por ecemplo o CPF, terminal.
+
+Logue todas as entradas, saidas e operçaões importantes.
+
+EX.:
+
+this.log.debug(`Iniciando a atualização do usuário [${cpf}]`, dadosParaAtualizar);
+this.log.debug(`Dados atualizados com sucesso para o usuário [${cpf}]`, dadosAtualizados);
 
 ## Massa de teste
 

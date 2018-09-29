@@ -1,8 +1,8 @@
 # Checklist para inicio de projetos
 
-- [ ] Utiliza framework frontend
-- [ ] Utiliza framework backend
-- [ ] Utiliza framework Minha Oi
+- [ ] Utiliza o framework de frontend
+- [ ] Utiliza o framework de backend
+- [ ] Utiliza o framework da Minha Oi
 - [ ] Utiliza pool de maquinas do squad
 - [ ] Utiliza um filesystem próprio
 - [ ] Firewall foi liberado para as integrações

@@ -4,9 +4,18 @@ Esse manual visa prover informações basicas sobre os processos necessários na
 
 Utilize como referência e complemente caso alguma nova informação seja necessária.
 
+## Índice
+
+- [Criando uma nova aplicação](#criando-uma-nova-aplicação)
+    - [Backend - Bootstrap](#backend-bootstrap)
+    - [Backend - Bootstrap Minha Oi](#backend-bootstrap-minha-oi)
+    - [Frontend]
+- [Solicitação de maquinas](#solicitação-de-maquinas)
+
+
 ## Criando uma nova aplicação
 
-### Backend - Bootstrap
+### Backend Bootstrap
 
 Para criar uma nova aplicação backend nodejs inicie criando um projeto padrão utilizando 
 o oi-node-api-bootstrap.
@@ -14,7 +23,7 @@ o oi-node-api-bootstrap.
 Esse bootstrap criará a base de um projeto utilizando o framework da empresa, que de trará facilidades de log, cache, 
 conexão ao banco de dados, auditoria etc.
 
-### Backend - Bootstrap Minha Oi
+### Backend Bootstrap Minha Oi
 
 Para criar uma nova aplicação backend nodejs dentro do universo da Minha Oi, inicie criando um projeto padrão utilizando 
 o minhaoi-node-bootstrap.

@@ -35,10 +35,15 @@ Essas maquinas servirão para prover serviços de backend e frontend de homologa
 
 Para solicitar um pool de máquinas, você precisará abrir uma ARS para a categoria XYZ coma a seguinte descrição:
 
+```
 Solicito a disponibilização de 5 maquinas com X GB de memoria para hospedar os projetos de backend em produção da squad X.
+
 Solicito a disponibilização de 8 maquinas com X GB de memoria para hospedar os projetos de frontend em produção da squad X.
+
 Solicito a disponibilização de 1 maquina com X GB de memoria para hospedar os projetos de backend em homologação da squad X.
+
 Solicito a disponibilização de 1 maquina com X GB de memoria para hospedar os projetos de frontend em homologação da squad X.
+```
 
 ## Firewall
 
@@ -46,7 +51,9 @@ Caso sua aplicação precise acessar algum serviço interno ou externo, você pr
 
 Se constatado que é necessário a liberação, você precisará abrir uma ARS para a categoria XYZ com a seguinte descrição:
 
+```
 Solicito liberação de Firewall nas maquinas A, B, C e D cujos ips são respectivamente 1, 2, 3 e 4 para o serviço http://servico
+```
 
 ## Criação de FileSystem
 
@@ -57,7 +64,9 @@ fazendo com que a falta de espaço em um projeto não impacte seu vizinho.
 
 Para solicitar a criação do filesystem você deverá procurar a equipe de DEVOPS e abria ARS para a categoria XYZ, com a seguinte descrição:
 
+```
 Solicito a criação de filesystem com 20 GB nas maquinas A, B, C e D para o projeto Y. O nome do filesystem deverá ser /nome-do-projeto
+```
 
 ## Criação de Pipeline
 
@@ -72,7 +81,9 @@ O digital já possui uma estrutura de banco de dados MongoDb nas maquinas XYZ, p
 
 Para criação de um banco de dados ORACLE você precisará abrir uma ARS para a categoria XYX com a seguinte descrição:
 
+```
 Solicito a criação de um banco de dados Oracle para a aplicação XYZ.
+```
 
 ## Redis - Cache
 
@@ -80,7 +91,9 @@ Para criar utilizar a estrutura de REDIS da Minha Oi, você precisará entrar co
 
 Caso você precise de uma estrutura própria de REDIS, será necessãrio criar uma ARS para a categoria XYZ com a seguinte descrição:
 
+```
 Solicito a criação de uma estrutura de alta disponibilidade de REDIS para o projeto XYZ.
+```
 
 ## Configuração do Sonar
 
@@ -92,7 +105,9 @@ Para configurar sua aplicação você deverá procurar a equipe de DEVOPS e soli
 
 Para criar um load balancer para sua aplicação em produção, será necessário abrir uma ARS passar a categoria XYZ com a seguinte descrição:
 
+```
 Solicito a criação de um load balancer para as maquinas A, B, C e D na porta 9999 que responda no nome http://meuprojeto.interno:9999
+```
 
 Esse procedimento é necessário no ambiente de produção para que todas as maquinas possam ser balanceadas e um nome possa ser definido para esse balanceamento.
 
@@ -107,10 +122,12 @@ http://meuprojeto.interno:9999/demandas   >   /api/demandas
 
 Para criar um proxy reverso no apache, você precisará abris uma ARS para a categoria XYX com a seguinte descrição:
 
+```
 Solicto a criação proxy reverso para as maquinas ( maquinas do frontend) com as seguintes definições:
 
 ProxyPass /meu/endereco/externo/demandas http://http://meuprojeto.interno:9999/demandas
 ProxyPass /meu/endereco/externo/login http://http://meuprojeto.interno:9999/login
+```
 
 ## Documentos e Desenhos
 
@@ -152,7 +169,6 @@ O digital tem seu proprio sistema de geração de massas de teste. Caso você pr
 basta utilizar o sistema de massas para cadastrar ou localizar o cenário necessário para a execução dos testes.
 
 A senha padrão gerada para os usuários desse sistema é abc123. Caso o CPF não funciona, adicione @oi.net no final e tente novamente.
-
 
 ## Auditoria
 

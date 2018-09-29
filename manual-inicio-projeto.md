@@ -170,7 +170,7 @@ ProxyPass /meu/endereco/externo/login http://http://meuprojeto.interno:9999/logi
 
 ## Manual de operação MOP
 
-Todas as aplicações devem ter um MOP. O MOP é o documento utilizado pela equipe de operações para entender e encontrar possiveis problemas em um projeto.
+Todas as aplicações devem ter um MOP, esse é o documento utilizado pela equipe de operações para entender e encontrar possiveis problemas em um projeto.
 
 Esse documento contem informações de capacidade da máquina, IPS, endereços, descrição funcional do objetivo da aplicação, desenhos da infra estrutura, integrações com requests e responses, localização dos logs, 
 informações sobre restarts, expurgos e exemplos de uso.

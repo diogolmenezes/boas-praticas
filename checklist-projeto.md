@@ -1,32 +1,37 @@
 # Checklist para inicio de projetos
 
-- [ ] Utilização do framework frontend
-- [ ] Utilização do framework backend
-- [ ] Utilização do framework Minha Oi
-- [ ] Disponibilização de máquinas
-- [ ] Liberação de firewall para as integrações
-- [ ] Utilização de filesystem próprio
-- [ ] Pipeline backend com rollback
-- [ ] Pipeline frontend com rollback
-- [ ] Utilização Banco de dados
-- [ ] Utilização de Cache
-- [ ] Utilização de Fila
-- [ ] Utilização do Sonar
-- [ ] Logs bem informativos
-- [ ] Dashboards e visualizações no Kibana
-- [ ] Cobertura com testes unitários
-- [ ] Cobertura com testes integrados
-- [ ] Loadbalancer e DNS configurado frontend
-- [ ] Loadbalancer e DNS configurado backend
-- [ ] Rotas de proxy reverso configuradas
-- [ ] Desenhos e documentações
-- [ ] Manual de operação
-- [ ] Alinhamento com equipe de operação
-- [ ] Teste de performance
-- [ ] Teste de segurança
-- [ ] Auditoria corporativa
-- [ ] Tagueamento
-- [ ] Data Layer
-- [ ] Estrategia de rollout definida
-- [ ] Alertas no Butler definidos
-- [ ] Necessidade de alteração / deploy em outro projeto
+- [ ] Utiliza framework frontend
+- [ ] Utiliza framework backend
+- [ ] Utiliza framework Minha Oi
+- [ ] Utiliza pool de maquinas do squad
+- [ ] Utiliza um filesystem próprio
+- [ ] Firewall foi liberado para as integrações
+- [ ] Pipeline backend
+- [ ] Pipeline frontend
+- [ ] Pipeline frontend tem rollback
+- [ ] Pipeline backend tem rollback
+- [ ] Utiliza Banco de dados
+- [ ] Tem credencial propria para o banco de dados
+- [ ] Utiliza de Cache
+- [ ] Tem credencial propria para o cache
+- [ ] Utiliza de Fila
+- [ ] Tem credencial propria para a fila
+- [ ] Utiliza Sonar
+- [ ] Os logs estão detalhados e todos possuem identificadores como cpfs e terminal
+- [ ] Os Dashboards e visualizações no Kibana estão criados e são informativos
+- [ ] Possui boa cobertura de testes unitários
+- [ ] Possui boa cobertura de testes integrados
+- [ ] Possui Loadbalancer e DNS configurado para o frontend
+- [ ] Possui Loadbalancer e DNS configurado para o backend
+- [ ] As Rotas de proxy reverso foram configuradas
+- [ ] Possui todos os desenhos e documentações necessários
+- [ ] Possui Manual de operação - MOP
+- [ ] Possui alinhamento com equipe de operação
+- [ ] Teste de performance foram realizados
+- [ ] Teste de segurança foram realizados
+- [ ] Auditoria corporativa está sendo gravada
+- [ ] Tagueamento está sendo realizado
+- [ ] Data Layer está sendo realizado
+- [ ] A estrategia de rollout foi definida
+- [ ] Os alertas no Butler foram criados
+- [ ] Possui necessidade de alteração / deploy em outros projetos

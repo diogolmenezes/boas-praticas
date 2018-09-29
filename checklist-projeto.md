@@ -5,18 +5,18 @@
 - [ ] Utiliza o framework da Minha Oi
 - [ ] Utiliza pool de maquinas do squad
 - [ ] Utiliza um filesystem próprio
-- [ ] Firewall foi liberado para as integrações
-- [ ] Pipeline backend
-- [ ] Pipeline frontend
-- [ ] Pipeline frontend tem rollback
-- [ ] Pipeline backend tem rollback
+- [ ] O Firewall foi liberado para as integrações
+- [ ] Utiliza o pipeline frontend
+- [ ] O pipeline frontend tem rollback
+- [ ] Utiliza o pipeline backend
+- [ ] O pipeline backend tem rollback
 - [ ] Utiliza Banco de dados
-- [ ] Tem credencial propria para o banco de dados
+- [ ] Utiliza credencial propria para o banco de dados
 - [ ] Utiliza de Cache
 - [ ] Tem credencial propria para o cache
 - [ ] Utiliza de Fila
 - [ ] Tem credencial propria para a fila
-- [ ] Utiliza Sonar
+- [ ] Utiliza o Sonar
 - [ ] Os logs estão detalhados e todos possuem identificadores como cpfs e terminal
 - [ ] Os Dashboards e visualizações no Kibana estão criados e são informativos
 - [ ] Possui boa cobertura de testes unitários
@@ -27,11 +27,11 @@
 - [ ] Possui todos os desenhos e documentações necessários
 - [ ] Possui Manual de operação - MOP
 - [ ] Possui alinhamento com equipe de operação
-- [ ] Teste de performance foram realizados
-- [ ] Teste de segurança foram realizados
-- [ ] Auditoria corporativa está sendo gravada
-- [ ] Tagueamento está sendo realizado
-- [ ] Data Layer está sendo realizado
+- [ ] Os testes de performance foram realizados
+- [ ] Os testes de segurança foram realizados
+- [ ] A auditoria corporativa está sendo gravada
+- [ ] O tagueamento está sendo realizado
+- [ ] O data Layer está sendo realizado
 - [ ] A estrategia de rollout foi definida
 - [ ] Os alertas no Butler foram criados
 - [ ] Possui necessidade de alteração / deploy em outros projetos

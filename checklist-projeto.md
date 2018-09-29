@@ -29,3 +29,4 @@
 - [ ] Data Layer
 - [ ] Estrategia de rollout definida
 - [ ] Alertas no Butler definidos
+- [ ] Necessidade de alteração / deploy em outro projeto

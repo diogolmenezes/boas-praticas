@@ -181,6 +181,12 @@ O MOP deve ser criado e compartilhado com a equipe de operações da empresa. Ne
 
 EXEMPLO_DE_MOP
 
+## Teste de performance
+
+Antes de liberar um projeto é necessário realizar testes de performance em suas APIs.
+
+Você pode utilizar diversas ferramentas para essa tarefa. As ferramentas recomendadas são o JMeter e o Apache Benchmark.
+
 ## Teste de Segurança
 
 Todas os projetos e funcionalidades novos devem ser analisados e liberados pela equipe de segurança.
@@ -252,12 +258,6 @@ O Digitarl possui sua propria ferramenta de envio de tokens, o Oi Token.
 O OiToken é capaz de gerar e enviar tokens por SMS, VOZ ou Conversor de TV.
 
 Para utilizar o Oi Token procure o gestor de área de desenvolvimento digital e informe sua volumetria.
-
-## Teste de performance
-
-Antes de liberar um projeto é necessário realizar testes de performance em suas APIs.
-
-Você pode utilizar diversas ferramentas para essa tarefa. As ferramentas recomendadas são o JMeter e o Apache Benchmark.
 
 ## Fila
 

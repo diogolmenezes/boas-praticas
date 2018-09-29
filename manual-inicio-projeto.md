@@ -115,7 +115,7 @@ Para criação de um banco de dados ORACLE você precisará abrir uma ARS para a
 Solicito a criação de um banco de dados Oracle para a aplicação XYZ.
 ```
 
-## Redis - Cache
+## Redis Cache
 
 Para criar utilizar a estrutura de REDIS da Minha Oi, você precisará entrar contado com os responsáveis pelo projeto para receber o endereço e a credencial.
 
@@ -168,7 +168,7 @@ ProxyPass /meu/endereco/externo/login http://http://meuprojeto.interno:9999/logi
 - Arquivo com o relacionamento entre a aplicação e suas integrações. LINK_DE_EXEMPLO
 - Arquivo com as APIs e seus consumidores. LINK_DE_EXEMPLO
 
-## Manual de operação - MOP
+## Manual de operação MOP
 
 Todas as aplicações devem ter um MOP. O MOP é o documento utilizado pela equipe de operações para entender e encontrar possiveis problemas em um projeto.
 

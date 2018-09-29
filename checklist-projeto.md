@@ -1,0 +1,31 @@
+# Checklist para inicio de projetos
+
+- [ ] Utilização do framework frontend
+- [ ] Utilização do framework backend
+- [ ] Utilização do framework Minha Oi
+- [ ] Disponibilização de máquinas
+- [ ] Liberação de firewall para as integrações
+- [ ] Utilização de filesystem próprio
+- [ ] Pipeline backend com rollback
+- [ ] Pipeline frontend com rollback
+- [ ] Utilização Banco de dados
+- [ ] Utilização de Cache
+- [ ] Utilização de Fila
+- [ ] Utilização do Sonar
+- [ ] Logs bem informativos
+- [ ] Dashboards e visualizações no Kibana
+- [ ] Cobertura com testes unitários
+- [ ] Cobertura com testes integrados
+- [ ] Loadbalancer e DNS configurado frontend
+- [ ] Loadbalancer e DNS configurado backend
+- [ ] Rotas de proxy reverso configuradas
+- [ ] Desenhos e documentações
+- [ ] Manual de operação
+- [ ] Alinhamento com equipe de operação
+- [ ] Teste de performance
+- [ ] Teste de segurança
+- [ ] Auditoria corporativa
+- [ ] Tagueamento
+- [ ] Data Layer
+- [ ] Estrategia de rollout definida
+- [ ] Alertas no Butler definidos

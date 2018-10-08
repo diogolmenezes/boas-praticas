@@ -9,7 +9,7 @@ Utilize como referência e complemente caso alguma nova informação seja necess
 - [Frameworks e boilerplates para criação de aplicações](#frameworks-e-boilerplates-para-criação-de-aplicações)
 - [Solicitação de maquinas](#solicitação-de-maquinas)
 - [Firewall](#firewall)
-- [Criação de FileSystem](#criação-de-fileSystem)
+- [Criação de FileSystem](#criação-de-filesystem)
 - [Criação de Pipeline](#criação-de-pipeline)
 - [Criação de banco de dados](#criação-de-banco-de-dados)
 - [Cache e Redis](#cache-e-redis)
@@ -91,7 +91,15 @@ Cada aplicação deve ter seu próprio filesystem pois dessa forma temos indepen
 
 Os filesystems de uma máquina podem ser listados através do comando *df -kh*, antes de solicitar a criação verifique se já não existe outro com o mesmo nome.
 
-Para solicitar a criação do filesystem você deverá procurar a equipe de DEVOPS e abrir uma ARS para a categoria XYZ, com a seguinte descrição:
+Para solicitar a criação do filesystem você deverá procurar a equipe de DEVOPS e abrir uma ARS para:
+
+Categoria: INFRA ESTRUTURA
+Tipo: UNIX
+Item: FILE SYSTEM
+Sub Item: INTRANET
+Complemento: NÃO SE APLICA
+
+com a seguinte descrição:
 
 ```
 Solicito a criação de filesystem com 20 GB nas maquinas A, B, C e D para o projeto Y. O nome do filesystem deverá ser /nome-do-projeto

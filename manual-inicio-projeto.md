@@ -93,11 +93,11 @@ Os filesystems de uma máquina podem ser listados através do comando *df -kh*, 
 
 Para solicitar a criação do filesystem você deverá procurar a equipe de DEVOPS e abrir uma ARS para:
 
-Categoria: INFRA ESTRUTURA
-Tipo: UNIX
-Item: FILE SYSTEM
-Sub Item: INTRANET
-Complemento: NÃO SE APLICA
+- Categoria: INFRA ESTRUTURA
+- Tipo: UNIX
+- Item: FILE SYSTEM
+- Sub Item: INTRANET
+- Complemento: NÃO SE APLICA
 
 com a seguinte descrição:
 
@@ -110,6 +110,57 @@ Solicito a criação de filesystem com 20 GB nas maquinas A, B, C e D para o pro
 Para que uma aplicação seja entregue nos diversos ambientes (DEVELOPMENT, TESTING, STAGING e PRODUCTION), ela deverá passar por um pipeline no jenkins (http://dadhx02.interno/). Cada aplicação deverá ter seu próprio pipeline.
 
 Para criar um pipeline, você deve procurar a equipe de DEVOPS para que ela sugira a melhor forma de fazer isso de acordo com o seu projeto.
+
+## Load Balancer e DNS
+
+Como num ambiente de alta disponibilidade utilizamos sempre mais de uma maquina, é necessário criar um load balancer que será responsável por distribuir a carga entre elas.
+
+Para criar um load balancer para sua aplicação você terá que abrir 2 ARSs, uma para criação do load balancer e outra para associar o IP a um DNS.
+
+Para criar o load balancer, será necessário abrir uma ARS para:
+
+- Categoria: INFRA ESTRUTURA
+- Tipo: REDE CORPORATIVA
+- Item: BALANCEADOR DE CARGA
+- Sub Item: CONFIGURACAO
+- Complemento: DC DF (Datacenter onde está sua aplicação)
+
+Com a descrição:
+
+```
+Solicito a criação de um load balancer para as maquinas A, B, C e D na porta 9999
+```
+
+Após receber o IP do novo load balancer, você precisará criar uma ARS para a criação do DNS:
+
+- Categoria: INFRA ESTRUTURA
+- Tipo: REDE CORPORATIVA
+- Item: DNS
+- Sub Item: CONFIGURACAO
+- Complemento: INCLUSAO DOMINIO
+
+Com a descrição:
+
+```
+Solicito a criação do DNS http://api-meuprojeto.interno que aponte para o IP 111.111.111.111
+```
+
+## Proxy reverso
+
+O endereço do load balancer da sua aplicação backend é interno, só funciona dentro da rede da Oi. Para que esse endereço possa ser acessado de fora da rede da Oi ( internet ) é necessário que eles sejam mapeados e expostos. Para isso você precisará criar o mapeamento de proxy reverso.
+
+Esse mapeamento faz um de/para de um endereço interno para um endereço externo, como por exemplo:
+
+http://meuprojeto.interno:9999/demandas   >   /api/demandas
+
+Para criar um proxy reverso no apache, você precisará abrir uma ARS para a categoria XYX com a seguinte descrição:
+
+```
+Solicto a criação de proxy reverso para as maquinas ( maquinas do frontend) com as seguintes definições:
+
+ProxyPass /meu/endereco/externo/demandas http://http://meuprojeto.interno:9999/demandas
+ProxyPass /meu/endereco/externo/login http://http://meuprojeto.interno:9999/login
+```
 
 ## Criação de banco de dados
 
@@ -140,33 +191,6 @@ Solicito a criação de uma estrutura de alta disponibilidade de REDIS para o pr
 Todos sabemos a importancia dos testes automatizados, por isso as aplicações digitais devem ter sua cobertura de testes monitorada pelo Sonar.
 
 Para configurar sua aplicação você deverá procurar a equipe de DEVOPS e solicitar apoio para a criação e configuração na estrutura do Sonar.
-
-## Load Balancer e DNS
-
-Como num ambiente de alta disponibilidade utilizamos sempre mais de uma maquina, é necessário criar um load balancer que será responsável por distribuir a carga entre elas.
-
-Para criar um load balancer para sua aplicação, será necessário abrir uma ARS para a categoria XYZ com a seguinte descrição:
-
-```
-Solicito a criação de um load balancer para as maquinas A, B, C e D na porta 9999 que responda no nome http://meuprojeto.interno:9999
-```
-
-## Proxy reverso
-
-O endereço do load balancer da sua aplicação backend é interno, só funciona dentro da rede da Oi. Para que esse endereço possa ser acessado de fora da rede da Oi ( internet ) é necessário que eles sejam mapeados e expostos. Para isso você precisará criar o mapeamento de proxy reverso.
-
-Esse mapeamento faz um de/para de um endereço interno para um endereço externo, como por exemplo:
-
-http://meuprojeto.interno:9999/demandas   >   /api/demandas
-
-Para criar um proxy reverso no apache, você precisará abrir uma ARS para a categoria XYX com a seguinte descrição:
-
-```
-Solicto a criação de proxy reverso para as maquinas ( maquinas do frontend) com as seguintes definições:
-
-ProxyPass /meu/endereco/externo/demandas http://http://meuprojeto.interno:9999/demandas
-ProxyPass /meu/endereco/externo/login http://http://meuprojeto.interno:9999/login
-```
 
 ## Documentos e Desenhos
 

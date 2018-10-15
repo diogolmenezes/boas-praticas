@@ -102,7 +102,7 @@ Complemento: NÃO SE APLICA
 com a seguinte descrição:
 
 ```
-Solicito a criação de filesystem com 20 GB nas maquinas A, B, C e D para o projeto Y. O nome do filesystem deverá ser /nome-do-projeto e com o usuário DVOPSUSR e grupo DVOPSGRP permissão 2775.
+Solicito a criação de filesystem com 20 GB nas maquinas A, B, C e D para o projeto Y. O nome do filesystem deverá ser /nome-do-projeto e deverá ser configurado com o usuário DVOPSUSR grupo DVOPSGRP e permissão 2775.
 ```
 
 ## Criação de Pipeline

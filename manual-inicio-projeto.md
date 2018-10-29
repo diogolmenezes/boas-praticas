@@ -153,7 +153,14 @@ Esse mapeamento faz um de/para de um endereço interno para um endereço externo
 
 http://meuprojeto.interno:9999/demandas   >   /api/demandas
 
-Para criar um proxy reverso no apache, você precisará abrir uma ARS para a categoria XYX com a seguinte descrição:
+Para criar um proxy reverso no apache, você precisará abrir uma ARS para a categoria:
+
+- Categoria: INFRA ESTRUTURA
+- Tipo: SUPORTE INFRAWEB
+- Item: SERVICO
+- Sub Item: CONFIGURACAO
+
+Com a seguinte descrição:
 
 ```
 Solicto a criação de proxy reverso para as maquinas ( maquinas do frontend) com as seguintes definições:
@@ -161,6 +168,8 @@ Solicto a criação de proxy reverso para as maquinas ( maquinas do frontend) co
 ProxyPass /meu/endereco/externo/demandas http://http://meuprojeto.interno:9999/demandas
 ProxyPass /meu/endereco/externo/login http://http://meuprojeto.interno:9999/login
 ```
+
+
 
 ## Criação de banco de dados
 

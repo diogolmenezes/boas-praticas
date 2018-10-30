@@ -163,7 +163,7 @@ Para criar um proxy reverso no apache, você precisará abrir uma ARS para a cat
 Com a seguinte descrição:
 
 ```
-Solicto a criação de proxy reverso para as maquinas ( maquinas do frontend) com as seguintes definições:
+Solicito a inclusão da configuração de proxy reverso ( maquinas do frontend) com as seguintes definições:
 
 ProxyPass /meu/endereco/externo/demandas http://http://meuprojeto.interno:9999/demandas
 ProxyPass /meu/endereco/externo/login http://http://meuprojeto.interno:9999/login

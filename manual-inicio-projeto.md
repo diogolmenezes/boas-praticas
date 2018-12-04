@@ -77,11 +77,22 @@ Solicito a disponibilização de 1 maquina com X GB de memoria para hospedar os 
 
 Caso sua aplicação precise acessar algum serviço interno ou externo, você precisará entender se é necessário a liberação de firewall nas maquinas de homologação e produção.
 
-Se constatado que é necessário a liberação, você precisará abrir uma ARS para a categoria XYZ com a seguinte descrição:
+Se constatado que é necessário a liberação, você precisará abrir uma ARS para:
+
+- Categoria: SEGURANCA DA INFORMACAO
+- Tipo: CIBERNETIC DIGITAL - COPS
+- Item: INCLUSAO DE REGRA
+- Sub Item: FIREWALL
+- Complemento: CONFIGURACAO
+
+com a seguinte descrição:
 
 ```
-Solicito liberação de Firewall nas maquinas A, B, C e D cujos ips são respectivamente 1, 2, 3 e 4 para o serviço http://servico
+Solicito liberação de Firewall conforme planilha em anexo.
 ```
+E anexar a esse planilha contendo os caminhos a serem liberados.
+
+Caso seja uma liberação de VPN você deverá anexar essa planilha.
 
 ## Criação de FileSystem
 

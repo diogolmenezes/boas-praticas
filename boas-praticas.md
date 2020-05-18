@@ -1,6 +1,6 @@
-# Boas Práticas de programação - Oi Digital
+# Boas Práticas de programação
 
-Nesse guia falaremos sobre algumas boas práticas de programação e padrões que devem ser utilizados pelas equipes de desenvolvimento de software da Oi.
+Nesse guia falaremos sobre algumas boas práticas de programação e padrões que devem ser utilizados pelas equipes de desenvolvimento de software.
 
 Usaremos como base a linguagem Javascript, mas tenha em mente que a maioria dos conceitos encontrados aqui podem ser aplicados em qualquer linguagem.
 
@@ -35,7 +35,7 @@ Usaremos como base a linguagem Javascript, mas tenha em mente que a maioria dos 
 
 ## Introdução
 
-Esse guia não é apenas um style guide, falaremos sobre boas práticas de programação e padrões que devem ser utilizados pelas equipes de desenvolvimento de software da Oi.
+Esse guia não é apenas um style guide, falaremos sobre boas práticas de programação e padrões que devem ser utilizados pelas equipes de desenvolvimento de software.
 
 As recomendações desse guia, são testadas e largamente utilizadas pela comunidade de desenvolvimento de software. Usaremos como base a linguagem Javascript, mas tenha em mente que a **maioria dos conceitos** encontrados aqui podem ser aplicados em qualquer linguagem.
 
